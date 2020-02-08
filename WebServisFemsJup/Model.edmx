@@ -1,0 +1,1396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB_A54C28_alexander14Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="actividades">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idcategorias" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="actividadesPublicacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idpublicacion" Type="int" Nullable="false" />
+          <Property Name="idactivid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="calificacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idusuario" Type="int" Nullable="false" />
+          <Property Name="puntuacion" Type="int" Nullable="false" />
+          <Property Name="comentarios" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="categoriaT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="elemento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idmodulo" Type="int" />
+          <Property Name="tipoelemento" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="elementopermiso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idelemento" Type="int" />
+          <Property Name="idpermiso" Type="int" />
+        </EntityType>
+        <EntityType Name="elementopermitido">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="idperfil" Type="int" Nullable="false" />
+          <Property Name="idelempermiso" Type="int" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="insidencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idusuario" Type="int" Nullable="false" />
+          <Property Name="idusreportado" Type="int" Nullable="false" />
+          <Property Name="mensaje" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="estatus" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="modulo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombremodelo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="perfil">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipoperfil" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="perfilmodulo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="idperfil" Type="int" />
+          <Property Name="idmodulo" Type="int" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="permiso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tipopermiso" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="apellido" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="10" />
+          <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="curp" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="fechanacimiento" Type="datetime" />
+          <Property Name="fotoperfil" Type="varchar(max)" />
+          <Property Name="long" Type="varchar(max)" />
+          <Property Name="lat" Type="varchar(max)" />
+          <Property Name="idinteres" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="publicacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idcategorias" Type="int" Nullable="false" />
+          <Property Name="idusuario" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="varchar" MaxLength="5000" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="tarifa" Type="int" Nullable="false" />
+          <Property Name="extra" Type="varchar" MaxLength="5000" />
+          <Property Name="estatus" Type="int" Nullable="false" />
+          <Property Name="dispo" Type="varchar" MaxLength="200" />
+          <Property Name="long" Type="varchar(max)" Nullable="false" />
+          <Property Name="lat" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="solicitud">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idusuario" Type="int" Nullable="false" />
+          <Property Name="idpublicacion" Type="int" Nullable="false" />
+          <Property Name="estatus" Type="int" Nullable="false" />
+          <Property Name="f_citar" Type="datetime" />
+          <Property Name="f_trabajo" Type="datetime" />
+          <Property Name="descripcion" Type="varchar" MaxLength="5000" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="long" Type="varchar(max)" Nullable="false" />
+          <Property Name="lat" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idperfil" Type="int" Nullable="false" />
+          <Property Name="idpersona" Type="int" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="salt" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="score">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="calificacion" Type="decimal" Precision="15" Scale="1" />
+        </EntityType>
+        <Association Name="FK_actividades1">
+          <End Role="actividades" Type="Self.actividades" Multiplicity="1" />
+          <End Role="actividadesPublicacion" Type="Self.actividadesPublicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="actividades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actividadesPublicacion">
+              <PropertyRef Name="idactivid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_elemento1">
+          <End Role="elemento" Type="Self.elemento" Multiplicity="0..1" />
+          <End Role="elementopermiso" Type="Self.elementopermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="elemento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermiso">
+              <PropertyRef Name="idelemento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idcategorias">
+          <End Role="categoriaT" Type="Self.categoriaT" Multiplicity="1" />
+          <End Role="actividades" Type="Self.actividades" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoriaT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actividades">
+              <PropertyRef Name="idcategorias" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idcategorias1">
+          <End Role="categoriaT" Type="Self.categoriaT" Multiplicity="1" />
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoriaT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="publicacion">
+              <PropertyRef Name="idcategorias" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idelempermiso">
+          <End Role="elementopermiso" Type="Self.elementopermiso" Multiplicity="0..1" />
+          <End Role="elementopermitido" Type="Self.elementopermitido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="elementopermiso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermitido">
+              <PropertyRef Name="idelempermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idperfil2">
+          <End Role="perfil" Type="Self.perfil" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfil">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idperfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idperfil3">
+          <End Role="perfil" Type="Self.perfil" Multiplicity="1" />
+          <End Role="elementopermitido" Type="Self.elementopermitido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfil">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermitido">
+              <PropertyRef Name="idperfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idpersona2">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idpersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_interes1">
+          <End Role="categoriaT" Type="Self.categoriaT" Multiplicity="1" />
+          <End Role="persona" Type="Self.persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoriaT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="persona">
+              <PropertyRef Name="idinteres" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_modulo">
+          <End Role="modulo" Type="Self.modulo" Multiplicity="0..1" />
+          <End Role="perfilmodulo" Type="Self.perfilmodulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modulo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="perfilmodulo">
+              <PropertyRef Name="idmodulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_modulo1">
+          <End Role="modulo" Type="Self.modulo" Multiplicity="0..1" />
+          <End Role="elemento" Type="Self.elemento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modulo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elemento">
+              <PropertyRef Name="idmodulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_perfil">
+          <End Role="perfil" Type="Self.perfil" Multiplicity="0..1" />
+          <End Role="perfilmodulo" Type="Self.perfilmodulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfil">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="perfilmodulo">
+              <PropertyRef Name="idperfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_permisos3">
+          <End Role="permiso" Type="Self.permiso" Multiplicity="0..1" />
+          <End Role="elementopermiso" Type="Self.elementopermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="permiso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermiso">
+              <PropertyRef Name="idpermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_publicacion">
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="1" />
+          <End Role="solicitud" Type="Self.solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publicacion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="solicitud">
+              <PropertyRef Name="idpublicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_publicacion2">
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="1" />
+          <End Role="actividadesPublicacion" Type="Self.actividadesPublicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publicacion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actividadesPublicacion">
+              <PropertyRef Name="idpublicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario4">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="insidencia" Type="Self.insidencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="insidencia">
+              <PropertyRef Name="idusreportado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario5">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="insidencia" Type="Self.insidencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="insidencia">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario6">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="publicacion">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario7">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="solicitud" Type="Self.solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="solicitud">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario8">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="calificacion" Type="Self.calificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="calificacion">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="DB_A54C28_alexander14ModelStoreContainer">
+          <EntitySet Name="actividades" EntityType="Self.actividades" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="actividadesPublicacion" EntityType="Self.actividadesPublicacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="calificacion" EntityType="Self.calificacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="categoriaT" EntityType="Self.categoriaT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="elemento" EntityType="Self.elemento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="elementopermiso" EntityType="Self.elementopermiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="elementopermitido" EntityType="Self.elementopermitido" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="insidencia" EntityType="Self.insidencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="modulo" EntityType="Self.modulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="perfil" EntityType="Self.perfil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="perfilmodulo" EntityType="Self.perfilmodulo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="permiso" EntityType="Self.permiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="persona" EntityType="Self.persona" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="publicacion" EntityType="Self.publicacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="solicitud" EntityType="Self.solicitud" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="score" EntityType="Self.score" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [score].[id] AS [id], 
+    [score].[calificacion] AS [calificacion]
+    FROM [dbo].[score] AS [score]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_actividades1" Association="Self.FK_actividades1">
+            <End Role="actividades" EntitySet="actividades" />
+            <End Role="actividadesPublicacion" EntitySet="actividadesPublicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_elemento1" Association="Self.FK_elemento1">
+            <End Role="elemento" EntitySet="elemento" />
+            <End Role="elementopermiso" EntitySet="elementopermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idcategorias" Association="Self.FK_idcategorias">
+            <End Role="categoriaT" EntitySet="categoriaT" />
+            <End Role="actividades" EntitySet="actividades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idcategorias1" Association="Self.FK_idcategorias1">
+            <End Role="categoriaT" EntitySet="categoriaT" />
+            <End Role="publicacion" EntitySet="publicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idelempermiso" Association="Self.FK_idelempermiso">
+            <End Role="elementopermiso" EntitySet="elementopermiso" />
+            <End Role="elementopermitido" EntitySet="elementopermitido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idperfil2" Association="Self.FK_idperfil2">
+            <End Role="perfil" EntitySet="perfil" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idperfil3" Association="Self.FK_idperfil3">
+            <End Role="perfil" EntitySet="perfil" />
+            <End Role="elementopermitido" EntitySet="elementopermitido" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idpersona2" Association="Self.FK_idpersona2">
+            <End Role="persona" EntitySet="persona" />
+            <End Role="usuario" EntitySet="usuario" />
+          </AssociationSet>
+          <AssociationSet Name="FK_interes1" Association="Self.FK_interes1">
+            <End Role="categoriaT" EntitySet="categoriaT" />
+            <End Role="persona" EntitySet="persona" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modulo" Association="Self.FK_modulo">
+            <End Role="modulo" EntitySet="modulo" />
+            <End Role="perfilmodulo" EntitySet="perfilmodulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modulo1" Association="Self.FK_modulo1">
+            <End Role="modulo" EntitySet="modulo" />
+            <End Role="elemento" EntitySet="elemento" />
+          </AssociationSet>
+          <AssociationSet Name="FK_perfil" Association="Self.FK_perfil">
+            <End Role="perfil" EntitySet="perfil" />
+            <End Role="perfilmodulo" EntitySet="perfilmodulo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_permisos3" Association="Self.FK_permisos3">
+            <End Role="permiso" EntitySet="permiso" />
+            <End Role="elementopermiso" EntitySet="elementopermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_publicacion" Association="Self.FK_publicacion">
+            <End Role="publicacion" EntitySet="publicacion" />
+            <End Role="solicitud" EntitySet="solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_publicacion2" Association="Self.FK_publicacion2">
+            <End Role="publicacion" EntitySet="publicacion" />
+            <End Role="actividadesPublicacion" EntitySet="actividadesPublicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario4" Association="Self.FK_usuario4">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="insidencia" EntitySet="insidencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario5" Association="Self.FK_usuario5">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="insidencia" EntitySet="insidencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario6" Association="Self.FK_usuario6">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="publicacion" EntitySet="publicacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario7" Association="Self.FK_usuario7">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="solicitud" EntitySet="solicitud" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario8" Association="Self.FK_usuario8">
+            <End Role="usuario" EntitySet="usuario" />
+            <End Role="calificacion" EntitySet="calificacion" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_A54C28_alexander14Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="actividade">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idcategorias" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="actividadesPublicacions" Relationship="Self.FK_actividades1" FromRole="actividades" ToRole="actividadesPublicacion" />
+          <NavigationProperty Name="categoriaT" Relationship="Self.FK_idcategorias" FromRole="actividades" ToRole="categoriaT" />
+        </EntityType>
+        <EntityType Name="actividadesPublicacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idpublicacion" Type="Int32" Nullable="false" />
+          <Property Name="idactivid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="actividade" Relationship="Self.FK_actividades1" FromRole="actividadesPublicacion" ToRole="actividades" />
+          <NavigationProperty Name="publicacion" Relationship="Self.FK_publicacion2" FromRole="actividadesPublicacion" ToRole="publicacion" />
+        </EntityType>
+        <EntityType Name="calificacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idusuario" Type="Int32" Nullable="false" />
+          <Property Name="puntuacion" Type="Int32" Nullable="false" />
+          <Property Name="comentarios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_usuario8" FromRole="calificacion" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="categoriaT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="actividades" Relationship="Self.FK_idcategorias" FromRole="categoriaT" ToRole="actividades" />
+          <NavigationProperty Name="publicacions" Relationship="Self.FK_idcategorias1" FromRole="categoriaT" ToRole="publicacion" />
+          <NavigationProperty Name="personas" Relationship="Self.FK_interes1" FromRole="categoriaT" ToRole="persona" />
+        </EntityType>
+        <EntityType Name="elemento">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idmodulo" Type="Int32" />
+          <Property Name="tipoelemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="elementopermisoes" Relationship="Self.FK_elemento1" FromRole="elemento" ToRole="elementopermiso" />
+          <NavigationProperty Name="modulo" Relationship="Self.FK_modulo1" FromRole="elemento" ToRole="modulo" />
+        </EntityType>
+        <EntityType Name="elementopermiso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idelemento" Type="Int32" />
+          <Property Name="idpermiso" Type="Int32" />
+          <NavigationProperty Name="elemento" Relationship="Self.FK_elemento1" FromRole="elementopermiso" ToRole="elemento" />
+          <NavigationProperty Name="elementopermitidoes" Relationship="Self.FK_idelempermiso" FromRole="elementopermiso" ToRole="elementopermitido" />
+          <NavigationProperty Name="permiso" Relationship="Self.FK_permisos3" FromRole="elementopermiso" ToRole="permiso" />
+        </EntityType>
+        <EntityType Name="elementopermitido">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="idperfil" Type="Int32" Nullable="false" />
+          <Property Name="idelempermiso" Type="Int32" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="elementopermiso" Relationship="Self.FK_idelempermiso" FromRole="elementopermitido" ToRole="elementopermiso" />
+          <NavigationProperty Name="perfil" Relationship="Self.FK_idperfil3" FromRole="elementopermitido" ToRole="perfil" />
+        </EntityType>
+        <EntityType Name="insidencia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idusuario" Type="Int32" Nullable="false" />
+          <Property Name="idusreportado" Type="Int32" Nullable="false" />
+          <Property Name="mensaje" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="estatus" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_usuario4" FromRole="insidencia" ToRole="usuario" />
+          <NavigationProperty Name="usuario1" Relationship="Self.FK_usuario5" FromRole="insidencia" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="modulo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombremodelo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="elementoes" Relationship="Self.FK_modulo1" FromRole="modulo" ToRole="elemento" />
+          <NavigationProperty Name="perfilmoduloes" Relationship="Self.FK_modulo" FromRole="modulo" ToRole="perfilmodulo" />
+        </EntityType>
+        <EntityType Name="perfil">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipoperfil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="elementopermitidoes" Relationship="Self.FK_idperfil3" FromRole="perfil" ToRole="elementopermitido" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_idperfil2" FromRole="perfil" ToRole="usuario" />
+          <NavigationProperty Name="perfilmoduloes" Relationship="Self.FK_perfil" FromRole="perfil" ToRole="perfilmodulo" />
+        </EntityType>
+        <EntityType Name="perfilmodulo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="idperfil" Type="Int32" />
+          <Property Name="idmodulo" Type="Int32" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="modulo" Relationship="Self.FK_modulo" FromRole="perfilmodulo" ToRole="modulo" />
+          <NavigationProperty Name="perfil" Relationship="Self.FK_perfil" FromRole="perfilmodulo" ToRole="perfil" />
+        </EntityType>
+        <EntityType Name="permiso">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipopermiso" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="elementopermisoes" Relationship="Self.FK_permisos3" FromRole="permiso" ToRole="elementopermiso" />
+        </EntityType>
+        <EntityType Name="persona">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="apellido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="curp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechanacimiento" Type="DateTime" Precision="3" />
+          <Property Name="fotoperfil" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="long" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idinteres" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="categoriaT" Relationship="Self.FK_interes1" FromRole="persona" ToRole="categoriaT" />
+          <NavigationProperty Name="usuarios" Relationship="Self.FK_idpersona2" FromRole="persona" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="publicacion">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idcategorias" Type="Int32" Nullable="false" />
+          <Property Name="idusuario" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="tarifa" Type="Int32" Nullable="false" />
+          <Property Name="extra" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="estatus" Type="Int32" Nullable="false" />
+          <Property Name="dispo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="long" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="actividadesPublicacions" Relationship="Self.FK_publicacion2" FromRole="publicacion" ToRole="actividadesPublicacion" />
+          <NavigationProperty Name="categoriaT" Relationship="Self.FK_idcategorias1" FromRole="publicacion" ToRole="categoriaT" />
+          <NavigationProperty Name="solicituds" Relationship="Self.FK_publicacion" FromRole="publicacion" ToRole="solicitud" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_usuario6" FromRole="publicacion" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="solicitud">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idusuario" Type="Int32" Nullable="false" />
+          <Property Name="idpublicacion" Type="Int32" Nullable="false" />
+          <Property Name="estatus" Type="Int32" Nullable="false" />
+          <Property Name="f_citar" Type="DateTime" Precision="3" />
+          <Property Name="f_trabajo" Type="DateTime" Precision="3" />
+          <Property Name="descripcion" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="long" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="publicacion" Relationship="Self.FK_publicacion" FromRole="solicitud" ToRole="publicacion" />
+          <NavigationProperty Name="usuario" Relationship="Self.FK_usuario7" FromRole="solicitud" ToRole="usuario" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="usuario">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idperfil" Type="Int32" Nullable="false" />
+          <Property Name="idpersona" Type="Int32" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="calificacions" Relationship="Self.FK_usuario8" FromRole="usuario" ToRole="calificacion" />
+          <NavigationProperty Name="insidencias" Relationship="Self.FK_usuario4" FromRole="usuario" ToRole="insidencia" />
+          <NavigationProperty Name="insidencias1" Relationship="Self.FK_usuario5" FromRole="usuario" ToRole="insidencia" />
+          <NavigationProperty Name="perfil" Relationship="Self.FK_idperfil2" FromRole="usuario" ToRole="perfil" />
+          <NavigationProperty Name="persona" Relationship="Self.FK_idpersona2" FromRole="usuario" ToRole="persona" />
+          <NavigationProperty Name="publicacions" Relationship="Self.FK_usuario6" FromRole="usuario" ToRole="publicacion" />
+          <NavigationProperty Name="solicituds" Relationship="Self.FK_usuario7" FromRole="usuario" ToRole="solicitud" />
+        </EntityType>
+        <EntityType Name="score">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="calificacion" Type="Decimal" Precision="15" Scale="1" />
+        </EntityType>
+        <Association Name="FK_actividades1">
+          <End Role="actividades" Type="Self.actividade" Multiplicity="1" />
+          <End Role="actividadesPublicacion" Type="Self.actividadesPublicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="actividades">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actividadesPublicacion">
+              <PropertyRef Name="idactivid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idcategorias">
+          <End Role="categoriaT" Type="Self.categoriaT" Multiplicity="1" />
+          <End Role="actividades" Type="Self.actividade" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoriaT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actividades">
+              <PropertyRef Name="idcategorias" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_publicacion2">
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="1" />
+          <End Role="actividadesPublicacion" Type="Self.actividadesPublicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publicacion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="actividadesPublicacion">
+              <PropertyRef Name="idpublicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario8">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="calificacion" Type="Self.calificacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="calificacion">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idcategorias1">
+          <End Role="categoriaT" Type="Self.categoriaT" Multiplicity="1" />
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoriaT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="publicacion">
+              <PropertyRef Name="idcategorias" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_interes1">
+          <End Role="categoriaT" Type="Self.categoriaT" Multiplicity="1" />
+          <End Role="persona" Type="Self.persona" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categoriaT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="persona">
+              <PropertyRef Name="idinteres" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_elemento1">
+          <End Role="elemento" Type="Self.elemento" Multiplicity="0..1" />
+          <End Role="elementopermiso" Type="Self.elementopermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="elemento">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermiso">
+              <PropertyRef Name="idelemento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_modulo1">
+          <End Role="modulo" Type="Self.modulo" Multiplicity="0..1" />
+          <End Role="elemento" Type="Self.elemento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modulo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elemento">
+              <PropertyRef Name="idmodulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idelempermiso">
+          <End Role="elementopermiso" Type="Self.elementopermiso" Multiplicity="0..1" />
+          <End Role="elementopermitido" Type="Self.elementopermitido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="elementopermiso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermitido">
+              <PropertyRef Name="idelempermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_permisos3">
+          <End Role="permiso" Type="Self.permiso" Multiplicity="0..1" />
+          <End Role="elementopermiso" Type="Self.elementopermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="permiso">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermiso">
+              <PropertyRef Name="idpermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idperfil3">
+          <End Role="perfil" Type="Self.perfil" Multiplicity="1" />
+          <End Role="elementopermitido" Type="Self.elementopermitido" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfil">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="elementopermitido">
+              <PropertyRef Name="idperfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario4">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="insidencia" Type="Self.insidencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="insidencia">
+              <PropertyRef Name="idusreportado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario5">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="insidencia" Type="Self.insidencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="insidencia">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_modulo">
+          <End Role="modulo" Type="Self.modulo" Multiplicity="0..1" />
+          <End Role="perfilmodulo" Type="Self.perfilmodulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="modulo">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="perfilmodulo">
+              <PropertyRef Name="idmodulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idperfil2">
+          <End Role="perfil" Type="Self.perfil" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfil">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idperfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_perfil">
+          <End Role="perfil" Type="Self.perfil" Multiplicity="0..1" />
+          <End Role="perfilmodulo" Type="Self.perfilmodulo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="perfil">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="perfilmodulo">
+              <PropertyRef Name="idperfil" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_idpersona2">
+          <End Role="persona" Type="Self.persona" Multiplicity="1" />
+          <End Role="usuario" Type="Self.usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="persona">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="usuario">
+              <PropertyRef Name="idpersona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_publicacion">
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="1" />
+          <End Role="solicitud" Type="Self.solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="publicacion">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="solicitud">
+              <PropertyRef Name="idpublicacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario6">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="publicacion" Type="Self.publicacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="publicacion">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_usuario7">
+          <End Role="usuario" Type="Self.usuario" Multiplicity="1" />
+          <End Role="solicitud" Type="Self.solicitud" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuario">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="solicitud">
+              <PropertyRef Name="idusuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB_A54C28_alexander14Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="actividades" EntityType="Self.actividade" />
+          <EntitySet Name="actividadesPublicacions" EntityType="Self.actividadesPublicacion" />
+          <EntitySet Name="calificacions" EntityType="Self.calificacion" />
+          <EntitySet Name="categoriaTs" EntityType="Self.categoriaT" />
+          <EntitySet Name="elementoes" EntityType="Self.elemento" />
+          <EntitySet Name="elementopermisoes" EntityType="Self.elementopermiso" />
+          <EntitySet Name="elementopermitidoes" EntityType="Self.elementopermitido" />
+          <EntitySet Name="insidencias" EntityType="Self.insidencia" />
+          <EntitySet Name="moduloes" EntityType="Self.modulo" />
+          <EntitySet Name="perfils" EntityType="Self.perfil" />
+          <EntitySet Name="perfilmoduloes" EntityType="Self.perfilmodulo" />
+          <EntitySet Name="permisoes" EntityType="Self.permiso" />
+          <EntitySet Name="personas" EntityType="Self.persona" />
+          <EntitySet Name="publicacions" EntityType="Self.publicacion" />
+          <EntitySet Name="solicituds" EntityType="Self.solicitud" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="usuarios" EntityType="Self.usuario" />
+          <EntitySet Name="scores" EntityType="Self.score" />
+          <AssociationSet Name="FK_actividades1" Association="Self.FK_actividades1">
+            <End Role="actividades" EntitySet="actividades" />
+            <End Role="actividadesPublicacion" EntitySet="actividadesPublicacions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idcategorias" Association="Self.FK_idcategorias">
+            <End Role="categoriaT" EntitySet="categoriaTs" />
+            <End Role="actividades" EntitySet="actividades" />
+          </AssociationSet>
+          <AssociationSet Name="FK_publicacion2" Association="Self.FK_publicacion2">
+            <End Role="publicacion" EntitySet="publicacions" />
+            <End Role="actividadesPublicacion" EntitySet="actividadesPublicacions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario8" Association="Self.FK_usuario8">
+            <End Role="usuario" EntitySet="usuarios" />
+            <End Role="calificacion" EntitySet="calificacions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idcategorias1" Association="Self.FK_idcategorias1">
+            <End Role="categoriaT" EntitySet="categoriaTs" />
+            <End Role="publicacion" EntitySet="publicacions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_interes1" Association="Self.FK_interes1">
+            <End Role="categoriaT" EntitySet="categoriaTs" />
+            <End Role="persona" EntitySet="personas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_elemento1" Association="Self.FK_elemento1">
+            <End Role="elemento" EntitySet="elementoes" />
+            <End Role="elementopermiso" EntitySet="elementopermisoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modulo1" Association="Self.FK_modulo1">
+            <End Role="modulo" EntitySet="moduloes" />
+            <End Role="elemento" EntitySet="elementoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idelempermiso" Association="Self.FK_idelempermiso">
+            <End Role="elementopermiso" EntitySet="elementopermisoes" />
+            <End Role="elementopermitido" EntitySet="elementopermitidoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_permisos3" Association="Self.FK_permisos3">
+            <End Role="permiso" EntitySet="permisoes" />
+            <End Role="elementopermiso" EntitySet="elementopermisoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idperfil3" Association="Self.FK_idperfil3">
+            <End Role="perfil" EntitySet="perfils" />
+            <End Role="elementopermitido" EntitySet="elementopermitidoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario4" Association="Self.FK_usuario4">
+            <End Role="usuario" EntitySet="usuarios" />
+            <End Role="insidencia" EntitySet="insidencias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario5" Association="Self.FK_usuario5">
+            <End Role="usuario" EntitySet="usuarios" />
+            <End Role="insidencia" EntitySet="insidencias" />
+          </AssociationSet>
+          <AssociationSet Name="FK_modulo" Association="Self.FK_modulo">
+            <End Role="modulo" EntitySet="moduloes" />
+            <End Role="perfilmodulo" EntitySet="perfilmoduloes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idperfil2" Association="Self.FK_idperfil2">
+            <End Role="perfil" EntitySet="perfils" />
+            <End Role="usuario" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_perfil" Association="Self.FK_perfil">
+            <End Role="perfil" EntitySet="perfils" />
+            <End Role="perfilmodulo" EntitySet="perfilmoduloes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_idpersona2" Association="Self.FK_idpersona2">
+            <End Role="persona" EntitySet="personas" />
+            <End Role="usuario" EntitySet="usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="FK_publicacion" Association="Self.FK_publicacion">
+            <End Role="publicacion" EntitySet="publicacions" />
+            <End Role="solicitud" EntitySet="solicituds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario6" Association="Self.FK_usuario6">
+            <End Role="usuario" EntitySet="usuarios" />
+            <End Role="publicacion" EntitySet="publicacions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_usuario7" Association="Self.FK_usuario7">
+            <End Role="usuario" EntitySet="usuarios" />
+            <End Role="solicitud" EntitySet="solicituds" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(DB_A54C28_alexander14Model.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(DB_A54C28_alexander14Model.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_A54C28_alexander14ModelStoreContainer" CdmEntityContainer="DB_A54C28_alexander14Entities">
+          <EntitySetMapping Name="actividades">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.actividade">
+              <MappingFragment StoreEntitySet="actividades">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idcategorias" ColumnName="idcategorias" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="actividadesPublicacions">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.actividadesPublicacion">
+              <MappingFragment StoreEntitySet="actividadesPublicacion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idpublicacion" ColumnName="idpublicacion" />
+                <ScalarProperty Name="idactivid" ColumnName="idactivid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="calificacions">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.calificacion">
+              <MappingFragment StoreEntitySet="calificacion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idusuario" ColumnName="idusuario" />
+                <ScalarProperty Name="puntuacion" ColumnName="puntuacion" />
+                <ScalarProperty Name="comentarios" ColumnName="comentarios" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="categoriaTs">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.categoriaT">
+              <MappingFragment StoreEntitySet="categoriaT">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="elementoes">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.elemento">
+              <MappingFragment StoreEntitySet="elemento">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idmodulo" ColumnName="idmodulo" />
+                <ScalarProperty Name="tipoelemento" ColumnName="tipoelemento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="elementopermisoes">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.elementopermiso">
+              <MappingFragment StoreEntitySet="elementopermiso">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idelemento" ColumnName="idelemento" />
+                <ScalarProperty Name="idpermiso" ColumnName="idpermiso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="elementopermitidoes">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.elementopermitido">
+              <MappingFragment StoreEntitySet="elementopermitido">
+                <ScalarProperty Name="idperfil" ColumnName="idperfil" />
+                <ScalarProperty Name="idelempermiso" ColumnName="idelempermiso" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="insidencias">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.insidencia">
+              <MappingFragment StoreEntitySet="insidencia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idusuario" ColumnName="idusuario" />
+                <ScalarProperty Name="idusreportado" ColumnName="idusreportado" />
+                <ScalarProperty Name="mensaje" ColumnName="mensaje" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="moduloes">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.modulo">
+              <MappingFragment StoreEntitySet="modulo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombremodelo" ColumnName="nombremodelo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="perfils">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.perfil">
+              <MappingFragment StoreEntitySet="perfil">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tipoperfil" ColumnName="tipoperfil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="perfilmoduloes">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.perfilmodulo">
+              <MappingFragment StoreEntitySet="perfilmodulo">
+                <ScalarProperty Name="idperfil" ColumnName="idperfil" />
+                <ScalarProperty Name="idmodulo" ColumnName="idmodulo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="permisoes">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.permiso">
+              <MappingFragment StoreEntitySet="permiso">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="tipopermiso" ColumnName="tipopermiso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="personas">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.persona">
+              <MappingFragment StoreEntitySet="persona">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="curp" ColumnName="curp" />
+                <ScalarProperty Name="fechanacimiento" ColumnName="fechanacimiento" />
+                <ScalarProperty Name="fotoperfil" ColumnName="fotoperfil" />
+                <ScalarProperty Name="long" ColumnName="long" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="idinteres" ColumnName="idinteres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="publicacions">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.publicacion">
+              <MappingFragment StoreEntitySet="publicacion">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idcategorias" ColumnName="idcategorias" />
+                <ScalarProperty Name="idusuario" ColumnName="idusuario" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="tarifa" ColumnName="tarifa" />
+                <ScalarProperty Name="extra" ColumnName="extra" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="dispo" ColumnName="dispo" />
+                <ScalarProperty Name="long" ColumnName="long" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="solicituds">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.solicitud">
+              <MappingFragment StoreEntitySet="solicitud">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idusuario" ColumnName="idusuario" />
+                <ScalarProperty Name="idpublicacion" ColumnName="idpublicacion" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="f_citar" ColumnName="f_citar" />
+                <ScalarProperty Name="f_trabajo" ColumnName="f_trabajo" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="long" ColumnName="long" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuarios">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.usuario">
+              <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idperfil" ColumnName="idperfil" />
+                <ScalarProperty Name="idpersona" ColumnName="idpersona" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="salt" ColumnName="salt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="scores">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.score">
+              <MappingFragment StoreEntitySet="score">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="calificacion" ColumnName="calificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="DB_A54C28_alexander14Model.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="DB_A54C28_alexander14Model.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="DB_A54C28_alexander14Model.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="DB_A54C28_alexander14Model.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A54C28_alexander14Model.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="DB_A54C28_alexander14Model.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_A54C28_alexander14Model.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DB_A54C28_alexander14Model.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DB_A54C28_alexander14Model.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

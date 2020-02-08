@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e425330496b5402289174497a5c68cac" Name="Diagram1" ZoomLevel="50">
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.actividade" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.actividadesPublicacion" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.calificacion" Width="1.5" PointX="7.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.categoriaT" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.elemento" Width="1.5" PointX="12" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.elementopermiso" Width="1.5" PointX="14.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.elementopermitido" Width="1.5" PointX="16.5" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.insidencia" Width="1.5" PointX="7.5" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.modulo" Width="1.5" PointX="9.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.perfil" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.perfilmodulo" Width="1.5" PointX="12" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.permiso" Width="1.5" PointX="12" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.persona" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.publicacion" Width="1.5" PointX="7.5" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.solicitud" Width="1.5" PointX="9.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.sysdiagram" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.usuario" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.score" Width="1.5" PointX="2.75" PointY="1.75" IsExpanded="true" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_actividades1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_idcategorias" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_publicacion2" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_usuario8" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_idcategorias1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_interes1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_elemento1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_modulo1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_idelempermiso" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_permisos3" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_idperfil3" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_usuario4" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_usuario5" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_modulo" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_idperfil2" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_perfil" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_idpersona2" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_publicacion" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_usuario6" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_A54C28_alexander14Model.FK_usuario7" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
