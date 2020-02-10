@@ -15,10 +15,10 @@ namespace WebServisFemsJup
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class DB_A54C28_alexander14Entities : DbContext
+    public partial class DB_A54C28_alexander14Entities1 : DbContext
     {
-        public DB_A54C28_alexander14Entities()
-            : base("name=DB_A54C28_alexander14Entities")
+        public DB_A54C28_alexander14Entities1()
+            : base("name=DB_A54C28_alexander14Entities1")
         {
         }
     

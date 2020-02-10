@@ -19,7 +19,7 @@ namespace WebServisFemsJup
     // [System.Web.Script.Services.ScriptService]
     public class Service : System.Web.Services.WebService
     {
-        DB_A54C28_alexander14Entities bd;
+        DB_A54C28_alexander14Entities1 bd;
         string json;
         HttpContext con;
         //Objetos
@@ -44,21 +44,20 @@ namespace WebServisFemsJup
         ICryptoService cryptoService = new PBKDF2();
 
         public Service()
-        {
-            bd = new DB_A54C28_alexander14Entities();
+        {           
+            bd = new DB_A54C28_alexander14Entities1();
             con = HttpContext.Current;
             con.Response.ContentType = "application/json";
             json = "";
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Login(string email, string pass)
+        public void Login(string email, string pass,int perfil)
         {
-            var list = bd.usuarios.Where(x => x.email == email).FirstOrDefault();
-            passEncryptada = cryptoService.Compute(pass, list.salt);
-
+            var list = bd.usuarios.Where(x => x.email == email && x.idperfil == perfil).FirstOrDefault();
             if (list != null)
             {
+                passEncryptada = cryptoService.Compute(pass, list.salt);
                 if (cryptoService.Compare(list.pass,passEncryptada))
                 {
                     var lista = (from us in bd.usuarios
@@ -82,13 +81,11 @@ namespace WebServisFemsJup
                     json = JsonConvert.SerializeObject(lista);
                 }
                 else
-                {
-                    json = "1";
-                }
+                    json = JsonConvert.SerializeObject("[{ mensaje : '1' }]"); //La contraseña es incorrecta
 
             }
             else
-                json = "0";
+                json = JsonConvert.SerializeObject("[{mensaje : '0'}]");// el usuario no existe u el perfil es incorrecto
             con.Response.Write(json);
             con.Response.End();
         }
@@ -174,7 +171,7 @@ namespace WebServisFemsJup
                 p.telefono = telefono;
                 p.sexo = sexo;
                 p.curp = curp;
-                p.fechanacimiento = Convert.ToDateTime(fechanacimiento);
+                p.fechanacimiento = fechanacimiento;
                 p.fotoperfil = fotoperfil;
                 p.@long = longi;
                 p.lat = lat;
@@ -290,22 +287,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void AddActi_Publi(int idpublicacion, int idactivid)
-        {
-            a_p.idactivid = idactivid;
-            a_p.idpublicacion = idpublicacion;
-            bd.actividadesPublicacions.Add(a_p);
-            if (bd.SaveChanges() > 0)
-                json = "1";
-            else
-                json = "0";
-            con.Response.Write(json);
-            con.Response.End();
-
-        }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void AddSolicitud(int idusuario, int idpublicacion, string f_citar, string f_trabajo, string descripcion, int estatus, string @long, string lat)

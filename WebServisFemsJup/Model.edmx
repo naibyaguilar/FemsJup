@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DB_A54C28_alexander14Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DB_A54C28_alexander14Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="actividades">
           <Key>
             <PropertyRef Name="id" />
@@ -108,10 +108,10 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="apellido" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="telefono" Type="varchar" MaxLength="10" />
+          <Property Name="telefono" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="curp" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="fechanacimiento" Type="datetime" />
+          <Property Name="curp" Type="varchar" MaxLength="20" />
+          <Property Name="fechanacimiento" Type="varchar" MaxLength="50" />
           <Property Name="fotoperfil" Type="varchar(max)" />
           <Property Name="long" Type="varchar(max)" />
           <Property Name="lat" Type="varchar(max)" />
@@ -554,8 +554,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
             <End Role="calificacion" EntitySet="calificacion" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_A54C28_alexander14Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -687,10 +686,10 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="apellido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="curp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fechanacimiento" Type="DateTime" Precision="3" />
+          <Property Name="curp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fechanacimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="fotoperfil" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="long" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="lat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -1010,7 +1009,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DB_A54C28_alexander14Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DB_A54C28_alexander14Entities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="actividades" EntityType="Self.actividade" />
           <EntitySet Name="actividadesPublicacions" EntityType="Self.actividadesPublicacion" />
           <EntitySet Name="calificacions" EntityType="Self.calificacion" />
@@ -1156,7 +1155,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DB_A54C28_alexander14ModelStoreContainer" CdmEntityContainer="DB_A54C28_alexander14Entities">
+        <EntityContainerMapping StorageEntityContainer="DB_A54C28_alexander14ModelStoreContainer" CdmEntityContainer="DB_A54C28_alexander14Entities1">
           <EntitySetMapping Name="actividades">
             <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.actividade">
               <MappingFragment StoreEntitySet="actividades">

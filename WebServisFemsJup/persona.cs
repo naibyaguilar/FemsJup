@@ -26,7 +26,7 @@ namespace WebServisFemsJup
         public string telefono { get; set; }
         public string sexo { get; set; }
         public string curp { get; set; }
-        public Nullable<System.DateTime> fechanacimiento { get; set; }
+        public string fechanacimiento { get; set; }
         public string fotoperfil { get; set; }
         public string @long { get; set; }
         public string lat { get; set; }
