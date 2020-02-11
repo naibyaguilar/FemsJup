@@ -219,7 +219,7 @@ namespace WebServisFemsJup
                 bd.personas.Add(p);
             }
             if (bd.SaveChanges() > 0)
-                json = "1";
+                json = u.id.ToString();
             else
                 json = "0";
             con.Response.Write(json);
@@ -356,11 +356,11 @@ namespace WebServisFemsJup
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void ShowUsersPorAprobar()
         {
-            using (var db = new DB_A54C28_alexander14Entities())
+            using (var db = new DB_A54C28_alexander14Entities1())
             {
-                var datos = from p in db.persona
-                            join u in db.usuario on p.id equals u.idpersona
-                            join per in db.perfil on u.idperfil equals per.id
+                var datos = from p in db.personas
+                            join u in db.usuarios on p.id equals u.idpersona
+                            join per in db.perfils on u.idperfil equals per.id
                             where u.estatus == 3 && per.id != 1
                             select new
                             {

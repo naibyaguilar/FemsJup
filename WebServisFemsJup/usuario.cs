@@ -30,6 +30,7 @@ namespace WebServisFemsJup
         public string email { get; set; }
         public string pass { get; set; }
         public string salt { get; set; }
+        public Nullable<int> estatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<calificacion> calificacions { get; set; }

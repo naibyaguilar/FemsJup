@@ -166,8 +166,9 @@
           <Property Name="idperfil" Type="int" Nullable="false" />
           <Property Name="idpersona" Type="int" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="pass" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="pass" Type="varbinary(max)" Nullable="false" />
           <Property Name="salt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="estatus" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -752,7 +753,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Property Name="idperfil" Type="Int32" Nullable="false" />
           <Property Name="idpersona" Type="Int32" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="pass" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="calificacions" Relationship="Self.FK_usuario8" FromRole="usuario" ToRole="calificacion" />
           <NavigationProperty Name="insidencias" Relationship="Self.FK_usuario4" FromRole="usuario" ToRole="insidencia" />
@@ -761,6 +762,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <NavigationProperty Name="persona" Relationship="Self.FK_idpersona2" FromRole="usuario" ToRole="persona" />
           <NavigationProperty Name="publicacions" Relationship="Self.FK_usuario6" FromRole="usuario" ToRole="publicacion" />
           <NavigationProperty Name="solicituds" Relationship="Self.FK_usuario7" FromRole="usuario" ToRole="solicitud" />
+          <Property Name="estatus" Type="Int32" />
         </EntityType>
         <EntityType Name="score">
           <Key>
@@ -1328,6 +1330,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <EntitySetMapping Name="usuarios">
             <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.usuario">
               <MappingFragment StoreEntitySet="usuario">
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idperfil" ColumnName="idperfil" />
                 <ScalarProperty Name="idpersona" ColumnName="idpersona" />
