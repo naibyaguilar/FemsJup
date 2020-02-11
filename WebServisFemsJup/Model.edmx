@@ -166,7 +166,7 @@
           <Property Name="idperfil" Type="int" Nullable="false" />
           <Property Name="idpersona" Type="int" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
-          <Property Name="pass" Type="varbinary(max)" Nullable="false" />
+          <Property Name="pass" Type="varchar(max)" Nullable="false" />
           <Property Name="salt" Type="nvarchar(max)" Nullable="false" />
           <Property Name="estatus" Type="int" />
         </EntityType>
@@ -753,7 +753,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Property Name="idperfil" Type="Int32" Nullable="false" />
           <Property Name="idpersona" Type="Int32" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="Max" FixedLength="false" Nullable="false" Unicode="false" />
           <Property Name="salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="calificacions" Relationship="Self.FK_usuario8" FromRole="usuario" ToRole="calificacion" />
           <NavigationProperty Name="insidencias" Relationship="Self.FK_usuario4" FromRole="usuario" ToRole="insidencia" />
