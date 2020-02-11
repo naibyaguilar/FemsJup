@@ -388,11 +388,12 @@ namespace WebServisFemsJup
             var datos = from p in bd.personas
                         join u in bd.usuarios on p.id equals u.idpersona
                         join per in bd.perfils on u.idperfil equals per.id
-                        where u.estatus == 1 && per.id == 1
+                        where per.id == 1
                         select new
                         {
                             ID = u.id,
                             Correo = u.email,
+                            Pass = u.pass,
                             Nombres = p.nombre,
                             Apellidos = p.apellido,
                             Telefono = p.telefono,
