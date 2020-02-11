@@ -141,7 +141,41 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetCategorias()
+        {
+            var list = (from cat in bd.categoriaTs
+                        select new
+                        {
+                            id=cat.id,
+                            nombre=cat.nombre
 
+                        });
+            json = JsonConvert.SerializeObject(list);
+            con.Response.Write(json);
+            con.Response.End();
+
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetActividades(int id)
+        {
+            var list = (from cat in bd.categoriaTs
+                        join act in bd.actividades on cat.id equals act.idcategorias
+                        where cat.id == id
+                        select new
+                        {
+                            actividad = act.nombre
+                            /*bd.actividades.Where(x => x.idcategorias == id).Select(x => new {
+                                x.nombre
+                            })*/
+                        });
+            json = JsonConvert.SerializeObject(list);
+            con.Response.Write(json);
+            con.Response.End();
+
+        }
         //ALTAS
 
         [WebMethod]
