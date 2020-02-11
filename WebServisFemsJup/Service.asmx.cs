@@ -317,5 +317,39 @@ namespace WebServisFemsJup
         {
 
         }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void ShowUsersPorAprobar()
+        {
+            using (var db = new DB_A54C28_alexander14Entities())
+            {
+                var datos = from p in db.persona
+                            join u in db.usuario on p.id equals u.idpersona
+                            join per in db.perfil on u.idperfil equals per.id
+                            where u.estatus == 3 && per.id != 1
+                            select new
+                            {
+                                ID = u.id,
+                                Correo = u.email,
+                                Nombres = p.nombre,
+                                Apellidos = p.apellido,
+                                Telefono = p.telefono,
+                                Sexo = p.sexo,
+                                Curp = p.curp,
+                                Perfil = per.tipoperfil,
+                            };
+                //var datos= db.usuario.Where(x => x.TipoUsuario == 1).Select(x => x.persona.Select());
+                //Se convierte a JSON
+                string SalidaJSON = string.Empty;
+                SalidaJSON = JsonConvert.SerializeObject(datos);
+                //Salida del webservice
+                HttpContext Contexto = HttpContext.Current;
+                Context.Response.ContentType = "application/json";
+                Context.Response.Write(SalidaJSON);
+                Context.Response.End();
+            }
+
+        }
     }
 }
