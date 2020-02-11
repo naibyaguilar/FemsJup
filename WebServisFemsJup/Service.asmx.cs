@@ -214,7 +214,7 @@ namespace WebServisFemsJup
                 u.pass = passEncryptada;
                 u.salt = salt;
                 u.idperfil = idperfil;
-                
+                u.estatus = 3;
                 p.usuarios.Add(u);
                 bd.personas.Add(p);
             }
@@ -354,36 +354,135 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void ShowUsersPorAprobar()
-        {
-            using (var db = new DB_A54C28_alexander14Entities1())
-            {
-                var datos = from p in db.personas
-                            join u in db.usuarios on p.id equals u.idpersona
-                            join per in db.perfils on u.idperfil equals per.id
-                            where u.estatus == 3 && per.id != 1
-                            select new
-                            {
-                                ID = u.id,
-                                Correo = u.email,
-                                Nombres = p.nombre,
-                                Apellidos = p.apellido,
-                                Telefono = p.telefono,
-                                Sexo = p.sexo,
-                                Curp = p.curp,
-                                Perfil = per.tipoperfil,
-                            };
-                //var datos= db.usuario.Where(x => x.TipoUsuario == 1).Select(x => x.persona.Select());
-                //Se convierte a JSON
-                string SalidaJSON = string.Empty;
-                SalidaJSON = JsonConvert.SerializeObject(datos);
-                //Salida del webservice
-                HttpContext Contexto = HttpContext.Current;
-                Context.Response.ContentType = "application/json";
-                Context.Response.Write(SalidaJSON);
-                Context.Response.End();
-            }
-
+        public void GetUsersPorAprobar()
+        {           
+            var datos = from p in bd.personas
+                        join u in bd.usuarios on p.id equals u.idpersona
+                        join per in bd.perfils on u.idperfil equals per.id
+                        where u.estatus == 3 && per.id != 1
+                        select new
+                        {
+                            ID = u.id,
+                            Correo = u.email,
+                            Nombres = p.nombre,
+                            Apellidos = p.apellido,
+                            Telefono = p.telefono,
+                            Sexo = p.sexo,
+                            Curp = p.curp,
+                            Perfil = per.tipoperfil,
+                        };
+            //Se convierte a JSON
+            string SalidaJSON = string.Empty;
+            SalidaJSON = JsonConvert.SerializeObject(datos);
+            //Salida del webservice
+            HttpContext Contexto = HttpContext.Current;
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(SalidaJSON);
+            Context.Response.End();            
         }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetUsersPorAdmin()
+        {            
+            var datos = from p in bd.personas
+                        join u in bd.usuarios on p.id equals u.idpersona
+                        join per in bd.perfils on u.idperfil equals per.id
+                        where u.estatus == 1 && per.id == 1
+                        select new
+                        {
+                            ID = u.id,
+                            Correo = u.email,
+                            Nombres = p.nombre,
+                            Apellidos = p.apellido,
+                            Telefono = p.telefono,
+                            Sexo = p.sexo,
+                            Curp = p.curp,
+                            Perfil = per.tipoperfil,
+                        };
+            //Se convierte a JSON
+            string SalidaJSON = string.Empty;
+            SalidaJSON = JsonConvert.SerializeObject(datos);
+            //Salida del webservice
+            HttpContext Contexto = HttpContext.Current;
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(SalidaJSON);
+            Context.Response.End();
+            
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void UpUserStatus(int iduser, int estatus)
+        {            
+            var query = from usuario in bd.usuarios
+                        where usuario.id == iduser
+                        select usuario;
+            foreach (usuario usu in query)
+            {
+                usu.estatus = estatus;
+            }
+            try
+            {
+                if (bd.SaveChanges() > 0)
+                    json = "1";
+                else
+                    json = "0";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            //Se convierte a JSON
+            string SalidaJSON = string.Empty;
+            SalidaJSON = JsonConvert.SerializeObject(json);
+            //Salida del webservice
+            HttpContext Contexto = HttpContext.Current;
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(SalidaJSON);
+            Context.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void AddUsuarioAdmin(
+            string email,
+            string pass,
+            string nombre,
+            string apellido,
+            string telefono,
+            string sexo,
+            string curp,
+            string fechanacimiento,
+            string fotoperfil
+            )
+        {
+
+            salt = cryptoService.GenerateSalt();
+            passEncryptada = cryptoService.Compute(pass);
+            {
+                p.nombre = nombre;
+                p.apellido = apellido;
+                p.telefono = telefono;
+                p.sexo = sexo;
+                p.curp = curp;
+                p.fechanacimiento = fechanacimiento;
+                p.fotoperfil = fotoperfil;         
+                u.email = email;
+                u.pass = passEncryptada;
+                u.salt = salt;
+                u.idperfil = 1;
+                u.estatus = 1;
+                p.usuarios.Add(u);
+                bd.personas.Add(p);
+            }
+            if (bd.SaveChanges() > 0)
+                json = u.id.ToString();
+            else
+                json = "0";
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
     }
 }
