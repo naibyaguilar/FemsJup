@@ -198,7 +198,6 @@ namespace WebServisFemsJup
             int idinteres
             )
         {
-           
              salt = cryptoService.GenerateSalt();
              passEncryptada = cryptoService.Compute(pass);
             {

@@ -109,7 +109,7 @@
           <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="apellido" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="telefono" Type="varchar" MaxLength="10" Nullable="false" />
-          <Property Name="sexo" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="sexo" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="curp" Type="varchar" MaxLength="20" />
           <Property Name="fechanacimiento" Type="varchar" MaxLength="50" />
           <Property Name="fotoperfil" Type="varchar(max)" />
@@ -688,7 +688,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Property Name="nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="apellido" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="sexo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="curp" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="fechanacimiento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="fotoperfil" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
