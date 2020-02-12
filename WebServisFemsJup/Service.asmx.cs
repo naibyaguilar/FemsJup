@@ -387,11 +387,12 @@ namespace WebServisFemsJup
             var datos = from p in bd.personas
                         join u in bd.usuarios on p.id equals u.idpersona
                         join per in bd.perfils on u.idperfil equals per.id
-                        where u.estatus == 1 && per.id == 1
+                        where per.id == 1
                         select new
                         {
                             ID = u.id,
                             Correo = u.email,
+                            Pass = u.pass,
                             Nombres = p.nombre,
                             Apellidos = p.apellido,
                             Telefono = p.telefono,
@@ -442,6 +443,8 @@ namespace WebServisFemsJup
             Context.Response.End();
         }
 
+        
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void AddUsuarioAdmin(
@@ -466,12 +469,13 @@ namespace WebServisFemsJup
                 p.sexo = sexo;
                 p.curp = curp;
                 p.fechanacimiento = fechanacimiento;
-                p.fotoperfil = fotoperfil;         
+                p.fotoperfil = fotoperfil;
+                p.idinteres = 1;
                 u.email = email;
                 u.pass = passEncryptada;
                 u.salt = salt;
                 u.idperfil = 1;
-                u.estatus = 1;
+                u.estatus = 1;                
                 p.usuarios.Add(u);
                 bd.personas.Add(p);
             }
