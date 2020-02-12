@@ -444,6 +444,8 @@ namespace WebServisFemsJup
             Context.Response.End();
         }
 
+        
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void AddUsuarioAdmin(
@@ -468,12 +470,13 @@ namespace WebServisFemsJup
                 p.sexo = sexo;
                 p.curp = curp;
                 p.fechanacimiento = fechanacimiento;
-                p.fotoperfil = fotoperfil;         
+                p.fotoperfil = fotoperfil;
+                p.idinteres = 1;
                 u.email = email;
                 u.pass = passEncryptada;
                 u.salt = salt;
                 u.idperfil = 1;
-                u.estatus = 1;
+                u.estatus = 1;                
                 p.usuarios.Add(u);
                 bd.personas.Add(p);
             }
