@@ -6,6 +6,8 @@ using System.Web.Services;
 using Newtonsoft.Json;
 using System.Web.Script.Services;
 using SimpleCrypto;
+using System.Data.Entity;
+using System.Data;
 
 namespace WebServisFemsJup
 {
@@ -354,12 +356,12 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsersPorAprobar()
+        public void GetUsersEstatus(int estatus)
         {           
             var datos = from p in bd.personas
                         join u in bd.usuarios on p.id equals u.idpersona
                         join per in bd.perfils on u.idperfil equals per.id
-                        where u.estatus == 3 && per.id != 1
+                        where u.estatus == estatus && per.id != 1
                         select new
                         {
                             ID = u.id,
@@ -370,6 +372,7 @@ namespace WebServisFemsJup
                             Sexo = p.sexo,
                             Curp = p.curp,
                             Perfil = per.tipoperfil,
+
                         };
             //Se convierte a JSON
             string SalidaJSON = string.Empty;
@@ -383,7 +386,7 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsersPorAdmin()
+        public void GetUsersAdmin()
         {            
             var datos = from p in bd.personas
                         join u in bd.usuarios on p.id equals u.idpersona
@@ -488,5 +491,12 @@ namespace WebServisFemsJup
             con.Response.End();
         }
 
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void DeleteUsuAdmin(int id)
+        {
+         
+        }
     }
 }
