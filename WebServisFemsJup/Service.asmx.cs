@@ -497,5 +497,21 @@ namespace WebServisFemsJup
         {
          
         }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void chartsAllPublic()
+        {            
+            var group = (from c in bd.categoriaTs
+                         join p in bd.publicacions on c.id equals p.idcategorias into g
+                         select new
+                         {
+                             nombre = c.nombre,
+                             popularidad = g.Count()
+                         });
+            json = JsonConvert.SerializeObject(group);
+            con.Response.Write(json);
+            con.Response.End();
+        }
     }
 }
