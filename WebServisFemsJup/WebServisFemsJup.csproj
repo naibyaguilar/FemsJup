@@ -156,6 +156,9 @@
     <Compile Include="publicacion.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="publiporcate.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="score.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

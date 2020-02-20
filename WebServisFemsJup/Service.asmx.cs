@@ -500,16 +500,70 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void chartsAllPublic()
+        public void GetPublicRequested()
         {            
-            var group = (from c in bd.categoriaTs
-                         join p in bd.publicacions on c.id equals p.idcategorias into g
+            var query = (from s in bd.solicituds
+                         join p in bd.publicacions on s.idpublicacion equals p.id 
+                         select new
+                         {                             
+                             total = p.id
+                         }).Count();
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetPublicRequestedByDate(DateTime inicio, DateTime final)
+        {
+            var query = (from p in bd.publicacions
+                         join s in bd.solicituds on p.id equals s.idpublicacion
+                         where p.fecha >= inicio && p.fecha <= final
                          select new
                          {
-                             nombre = c.nombre,
-                             popularidad = g.Count()
-                         });
-            json = JsonConvert.SerializeObject(group);
+                             total = p.id
+                         }).Count();
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetAllPublic()
+        {
+            var query = (from p in bd.publicacions
+                         select new
+                         {
+                             total = p.id
+                         }).Count();
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetAllPublicByDate(DateTime inicio, DateTime final)
+        {
+            var query = (from p in bd.publicacions
+                         where p.fecha >= inicio && p.fecha <= final
+                         select new
+                         {
+                             total = p.id
+                         }).Count();
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetPublicCategory()
+        {
+            var query = from publiporcate in bd.publiporcates
+                        select publiporcate;
+            json = JsonConvert.SerializeObject(query);
             con.Response.Write(json);
             con.Response.End();
         }
