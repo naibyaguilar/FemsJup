@@ -226,6 +226,7 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void Addcalificacion(int idusuario, int puntuacion, string comentario)
@@ -563,6 +564,21 @@ namespace WebServisFemsJup
         {
             var query = from publiporcate in bd.publiporcates
                         select publiporcate;
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetCategory()
+        {
+            var query = from c in bd.categoriaTs
+                        select new
+                        {
+                            c.id,
+                            c.nombre
+                        };
             json = JsonConvert.SerializeObject(query);
             con.Response.Write(json);
             con.Response.End();
