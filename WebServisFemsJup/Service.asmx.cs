@@ -568,7 +568,7 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-        
+        /*
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetCategory()
@@ -582,6 +582,6 @@ namespace WebServisFemsJup
             json = JsonConvert.SerializeObject(query);
             con.Response.Write(json);
             con.Response.End();
-        }
+        }*/
     }
 }
