@@ -8,6 +8,8 @@ using System.Web.Script.Services;
 using SimpleCrypto;
 using System.Data.Entity;
 using System.Data;
+using System.Net;
+using System.Data.Entity.SqlServer;
 
 namespace WebServisFemsJup
 {
@@ -125,18 +127,21 @@ namespace WebServisFemsJup
                         where c.id.ToString().Contains(id) && pub.estatus == 1 //aprobado
                         select new
                         {
-                            Titulo = c.nombre,
+                            Titulo = pub.titulo,
                             descripcion = pub.descripcion,
                             fecha = pub.fecha,
                             tarifa = pub.tarifa,
                             extra = pub.extra,
                             dispo = pub.dispo,
-                            longi=pub.@long,
-                            lat=pub.lat,
+                            lat = pub.lat,
+                            longi =pub.@long,
                             empleada=pe.nombre+" "+pe.apellido,
                             actividad = bd.actividades.Join(bd.actividadesPublicacions, a=>a.id, z=>z.idactivid,(a,z)=>new { a =a, z=z }).Where(x => x.z.idpublicacion == pub.id).Select(ac => new { 
                                  ac.a.nombre
-                            })
+                            }),
+                            interes = c.id,
+                            icono = c.icono,
+                            radio = pub.radio
 
                         });
             json = JsonConvert.SerializeObject(list);
@@ -151,9 +156,9 @@ namespace WebServisFemsJup
                         select new
                         {
                             id=cat.id,
-                            nombre=cat.nombre
-
-                        });
+                            nombre=cat.nombre,
+                            icono = cat.icono
+                        }).ToList();
             json = JsonConvert.SerializeObject(list);
             con.Response.Write(json);
             con.Response.End();
@@ -513,5 +518,19 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void uploadIcon(string img, int id) {
+            string url = img;
+            var webClient = new WebClient();
+            byte[] imageBytes = webClient.DownloadData(url);
+            var lista = bd.categoriaTs.FirstOrDefault(b => b.id == id);
+            lista.icono = imageBytes;
+            bd.SaveChanges();
+
+        }
+       
+
     }
 }

@@ -36,6 +36,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="icono" Type="varbinary" MaxLength="800" />
         </EntityType>
         <EntityType Name="elemento">
           <Key>
@@ -132,6 +133,8 @@
           <Property Name="dispo" Type="varchar" MaxLength="200" />
           <Property Name="long" Type="varchar(max)" Nullable="false" />
           <Property Name="lat" Type="varchar(max)" Nullable="false" />
+          <Property Name="titulo" Type="varchar" MaxLength="50" />
+          <Property Name="radio" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="solicitud">
           <Key>
@@ -598,6 +601,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <NavigationProperty Name="actividades" Relationship="Self.FK_idcategorias" FromRole="categoriaT" ToRole="actividades" />
           <NavigationProperty Name="publicacions" Relationship="Self.FK_idcategorias1" FromRole="categoriaT" ToRole="publicacion" />
           <NavigationProperty Name="personas" Relationship="Self.FK_interes1" FromRole="categoriaT" ToRole="persona" />
+          <Property Name="icono" Type="Binary" />
         </EntityType>
         <EntityType Name="elemento">
           <Key>
@@ -717,6 +721,8 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <NavigationProperty Name="categoriaT" Relationship="Self.FK_idcategorias1" FromRole="publicacion" ToRole="categoriaT" />
           <NavigationProperty Name="solicituds" Relationship="Self.FK_publicacion" FromRole="publicacion" ToRole="solicitud" />
           <NavigationProperty Name="usuario" Relationship="Self.FK_usuario6" FromRole="publicacion" ToRole="usuario" />
+          <Property Name="titulo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="radio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="solicitud">
           <Key>
@@ -1189,6 +1195,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <EntitySetMapping Name="categoriaTs">
             <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.categoriaT">
               <MappingFragment StoreEntitySet="categoriaT">
+                <ScalarProperty Name="icono" ColumnName="icono" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
@@ -1286,6 +1293,8 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <EntitySetMapping Name="publicacions">
             <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.publicacion">
               <MappingFragment StoreEntitySet="publicacion">
+                <ScalarProperty Name="radio" ColumnName="radio" />
+                <ScalarProperty Name="titulo" ColumnName="titulo" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idcategorias" ColumnName="idcategorias" />
                 <ScalarProperty Name="idusuario" ColumnName="idusuario" />

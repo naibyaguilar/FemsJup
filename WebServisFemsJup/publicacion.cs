@@ -32,6 +32,8 @@ namespace WebServisFemsJup
         public string dispo { get; set; }
         public string @long { get; set; }
         public string lat { get; set; }
+        public string titulo { get; set; }
+        public string radio { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<actividadesPublicacion> actividadesPublicacions { get; set; }
