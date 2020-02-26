@@ -114,6 +114,38 @@ namespace WebServisFemsJup
             con.Response.End();
         }
 
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetUsersEstatus(int estatus)
+        {
+            var datos = from p in bd.personas
+                        join u in bd.usuarios on p.id equals u.idpersona
+                        join per in bd.perfils on u.idperfil equals per.id
+                        where u.estatus == estatus && per.id != 1
+                        select new
+                        {
+                            ID = u.id,
+                            Correo = u.email,
+                            Nombres = p.nombre,
+                            Apellidos = p.apellido,
+                            Telefono = p.telefono,
+                            Sexo = p.sexo,
+                            Curp = p.curp,
+                            Perfil = per.tipoperfil,
+
+                        };
+            //Se convierte a JSON
+            string SalidaJSON = string.Empty;
+            SalidaJSON = JsonConvert.SerializeObject(datos);
+            //Salida del webservice
+            HttpContext Contexto = HttpContext.Current;
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(SalidaJSON);
+            Context.Response.End();
+        }
+
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GeTPublicacion(string id)
@@ -353,68 +385,10 @@ namespace WebServisFemsJup
         {
 
         }
+        
 
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsersEstatus(int estatus)
-        {           
-            var datos = from p in bd.personas
-                        join u in bd.usuarios on p.id equals u.idpersona
-                        join per in bd.perfils on u.idperfil equals per.id
-                        where u.estatus == estatus && per.id != 1
-                        select new
-                        {
-                            ID = u.id,
-                            Correo = u.email,
-                            Nombres = p.nombre,
-                            Apellidos = p.apellido,
-                            Telefono = p.telefono,
-                            Sexo = p.sexo,
-                            Curp = p.curp,
-                            Perfil = per.tipoperfil,
-
-                        };
-            //Se convierte a JSON
-            string SalidaJSON = string.Empty;
-            SalidaJSON = JsonConvert.SerializeObject(datos);
-            //Salida del webservice
-            HttpContext Contexto = HttpContext.Current;
-            Context.Response.ContentType = "application/json";
-            Context.Response.Write(SalidaJSON);
-            Context.Response.End();            
-        }
-
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsersAdmin()
-        {            
-            var datos = from p in bd.personas
-                        join u in bd.usuarios on p.id equals u.idpersona
-                        join per in bd.perfils on u.idperfil equals per.id
-                        where per.id == 1
-                        select new
-                        {
-                            ID = u.id,
-                            Correo = u.email,
-                            Pass = u.pass,
-                            Nombres = p.nombre,
-                            Apellidos = p.apellido,
-                            Telefono = p.telefono,
-                            Sexo = p.sexo,
-                            Curp = p.curp,
-                            Perfil = per.tipoperfil,
-                        };
-            //Se convierte a JSON
-            string SalidaJSON = string.Empty;
-            SalidaJSON = JsonConvert.SerializeObject(datos);
-            //Salida del webservice
-            HttpContext Contexto = HttpContext.Current;
-            Context.Response.ContentType = "application/json";
-            Context.Response.Write(SalidaJSON);
-            Context.Response.End();
-            
-        }
-
+        //Administrador
+    
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void UpUserStatus(int iduser, int estatus)
@@ -491,12 +465,35 @@ namespace WebServisFemsJup
             con.Response.End();
         }
 
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void DeleteUsuAdmin(int id)
+        public void GetUsersAdmin()
         {
-         
+            var datos = from p in bd.personas
+                        join u in bd.usuarios on p.id equals u.idpersona
+                        join per in bd.perfils on u.idperfil equals per.id
+                        where per.id == 1
+                        select new
+                        {
+                            ID = u.id,
+                            Correo = u.email,
+                            Pass = u.pass,
+                            Nombres = p.nombre,
+                            Apellidos = p.apellido,
+                            Telefono = p.telefono,
+                            Sexo = p.sexo,
+                            Curp = p.curp,
+                            Perfil = per.tipoperfil,
+                        };
+            //Se convierte a JSON
+            string SalidaJSON = string.Empty;
+            SalidaJSON = JsonConvert.SerializeObject(datos);
+            //Salida del webservice
+            HttpContext Contexto = HttpContext.Current;
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(SalidaJSON);
+            Context.Response.End();
+
         }
 
         [WebMethod]
@@ -510,6 +507,8 @@ namespace WebServisFemsJup
                              total = p.id
                          }).Count();
             json = JsonConvert.SerializeObject(query);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             con.Response.Write(json);
             con.Response.End();
         }
@@ -525,6 +524,8 @@ namespace WebServisFemsJup
                              total = p.id
                          }).Count();
             json = JsonConvert.SerializeObject(query);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             con.Response.Write(json);
             con.Response.End();
         }
@@ -539,6 +540,8 @@ namespace WebServisFemsJup
                              total = p.id
                          }).Count();
             json = JsonConvert.SerializeObject(query);
+            con.Response.ContentType = "application/json";        
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");            
             con.Response.Write(json);
             con.Response.End();
         }
@@ -554,6 +557,8 @@ namespace WebServisFemsJup
                              total = p.id
                          }).Count();
             json = JsonConvert.SerializeObject(query);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             con.Response.Write(json);
             con.Response.End();
         }
@@ -565,23 +570,31 @@ namespace WebServisFemsJup
             var query = from publiporcate in bd.publiporcates
                         select publiporcate;
             json = JsonConvert.SerializeObject(query);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");            
             con.Response.Write(json);
             con.Response.End();
         }
-        /*
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetCategory()
+        public void GetPublicCategoryDate(DateTime inicio, DateTime final)
         {
-            var query = from c in bd.categoriaTs
-                        select new
-                        {
-                            c.id,
-                            c.nombre
-                        };
+            var query = (from ca in bd.categoriaTs
+                         join p in bd.publicacions on ca.id equals p.idcategorias
+                         where p.fecha >= inicio && p.fecha <=final
+                         group ca by ca.nombre into g
+                         select new
+                         {
+                             nombre = g.Key,
+                             popularidad= g.Count(),
+                         });
+          
             json = JsonConvert.SerializeObject(query);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             con.Response.Write(json);
             con.Response.End();
-        }*/
+        }
     }
 }
