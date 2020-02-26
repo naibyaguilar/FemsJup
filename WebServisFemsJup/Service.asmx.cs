@@ -8,6 +8,8 @@ using System.Web.Script.Services;
 using SimpleCrypto;
 using System.Data.Entity;
 using System.Data;
+using System.Net;
+using System.Data.Entity.SqlServer;
 
 namespace WebServisFemsJup
 {
@@ -113,8 +115,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetUsersEstatus(int estatus)
@@ -144,8 +144,6 @@ namespace WebServisFemsJup
             Context.Response.Write(SalidaJSON);
             Context.Response.End();
         }
-
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GeTPublicacion(string id)
@@ -157,18 +155,21 @@ namespace WebServisFemsJup
                         where c.id.ToString().Contains(id) && pub.estatus == 1 //aprobado
                         select new
                         {
-                            Titulo = c.nombre,
+                            Titulo = pub.titulo,
                             descripcion = pub.descripcion,
                             fecha = pub.fecha,
                             tarifa = pub.tarifa,
                             extra = pub.extra,
                             dispo = pub.dispo,
-                            longi=pub.@long,
-                            lat=pub.lat,
+                            lat = pub.lat,
+                            longi =pub.@long,
                             empleada=pe.nombre+" "+pe.apellido,
                             actividad = bd.actividades.Join(bd.actividadesPublicacions, a=>a.id, z=>z.idactivid,(a,z)=>new { a =a, z=z }).Where(x => x.z.idpublicacion == pub.id).Select(ac => new { 
                                  ac.a.nombre
-                            })
+                            }),
+                            interes = c.id,
+                            icono = c.icono,
+                            radio = pub.radio
 
                         });
             json = JsonConvert.SerializeObject(list);
@@ -183,9 +184,9 @@ namespace WebServisFemsJup
                         select new
                         {
                             id=cat.id,
-                            nombre=cat.nombre
-
-                        });
+                            nombre=cat.nombre,
+                            icono = cat.icono
+                        }).ToList();
             json = JsonConvert.SerializeObject(list);
             con.Response.Write(json);
             con.Response.End();
@@ -210,8 +211,8 @@ namespace WebServisFemsJup
             con.Response.End();
 
         }
+        
         //ALTAS
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void AddUsuario(
@@ -258,7 +259,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void Addcalificacion(int idusuario, int puntuacion, string comentario)
@@ -377,18 +377,14 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         //Cambios
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void upPersona(string email, string pass, string nombre, string apellido, string telefono, string sexo, string curo, string fechanacimiento, string fotoperfil, string @long, string lat, int idinteres, string documento)
         {
 
-        }
-        
-
-        //Administrador
-    
+        }        
+        //Administrador    
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void UpUserStatus(int iduser, int estatus)
@@ -419,10 +415,7 @@ namespace WebServisFemsJup
             Context.Response.ContentType = "application/json";
             Context.Response.Write(SalidaJSON);
             Context.Response.End();
-        }
-
-        
-
+        }       
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void AddUsuarioAdmin(
@@ -464,7 +457,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetUsersAdmin()
@@ -495,10 +487,9 @@ namespace WebServisFemsJup
             Context.Response.End();
 
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetPublicRequested()
+        public void chartsAllPublic()
         {            
             var query = (from s in bd.solicituds
                          join p in bd.publicacions on s.idpublicacion equals p.id 
@@ -526,10 +517,17 @@ namespace WebServisFemsJup
             json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            var group = (from c in bd.categoriaTs
+                         join p in bd.publicacions on c.id equals p.idcategorias into g
+                         select new
+                         {
+                             nombre = c.nombre,
+                             popularidad = g.Count()
+                         });
+            json = JsonConvert.SerializeObject(group);
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetAllPublic()
@@ -545,7 +543,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetAllPublicByDate(DateTime inicio, DateTime final)
@@ -562,7 +559,16 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void uploadIcon(string img, int id) {
+            string url = img;
+            var webClient = new WebClient();
+            byte[] imageBytes = webClient.DownloadData(url);
+            var lista = bd.categoriaTs.FirstOrDefault(b => b.id == id);
+            lista.icono = imageBytes;
+            bd.SaveChanges();
+        }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetPublicCategory()
@@ -575,7 +581,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetPublicCategoryDate(DateTime inicio, DateTime final)
