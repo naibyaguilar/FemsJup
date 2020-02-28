@@ -178,6 +178,39 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GeTPublicacionPorUser(int id)
+        {
+            var list = (from pub in bd.publicacions
+                        join c in bd.categoriaTs on pub.idcategorias equals c.id
+                        join us in bd.usuarios on pub.idusuario equals us.id
+                        join pe in bd.personas on us.idpersona equals pe.id
+                        where pub.idusuario == id
+                        select new
+                        {
+                            idusuario= pub.idusuario,
+                            Titulo = pub.titulo,
+                            descripcion = pub.descripcion,
+                            fecha = pub.fecha,
+                            tarifa = pub.tarifa,
+                            extra = pub.extra,
+                            dispo = pub.dispo,
+                            lat = pub.lat,
+                            longi = pub.@long,
+                            empleada = pe.nombre + " " + pe.apellido,
+                            //actividad = bd.actividades.Join(bd.actividadesPublicacions, a => a.id, z => z.idactivid, (a, z) => new { a = a, z = z }).Where(x => x.z.idpublicacion == pub.id).Select(ac => new {
+                            //    ac.a.nombre
+                            //}),
+                            interes = c.id,
+                            //icono = c.icono,
+                            radio = pub.radio
+
+                        });
+            json = JsonConvert.SerializeObject(list);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetCategorias()
         {
             var list = (from cat in bd.categoriaTs
@@ -376,14 +409,27 @@ namespace WebServisFemsJup
                 json = "0";
             con.Response.Write(json);
             con.Response.End();
-        }
+        }        
+        
         //Cambios
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void upPersona(string email, string pass, string nombre, string apellido, string telefono, string sexo, string curo, string fechanacimiento, string fotoperfil, string @long, string lat, int idinteres, string documento)
         {
 
-        }        
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void uploadIcon(string img, int id)
+        {
+            string url = img;
+            var webClient = new WebClient();
+            byte[] imageBytes = webClient.DownloadData(url);
+            var lista = bd.categoriaTs.FirstOrDefault(b => b.id == id);
+            lista.icono = imageBytes;
+            bd.SaveChanges();
+        }
+        
         //Administrador    
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -487,44 +533,87 @@ namespace WebServisFemsJup
             Context.Response.End();
 
         }
+        //[WebMethod]
+        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        //public void chartsAllPublic()
+        //{            
+        //    var query = (from s in bd.solicituds
+        //                 join p in bd.publicacions on s.idpublicacion equals p.id 
+        //                 select new
+        //                 {                             
+        //                     total = p.id
+        //                 }).Count();
+        //    json = JsonConvert.SerializeObject(query);
+        //    con.Response.ContentType = "application/json";
+        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+        //    con.Response.Write(json);
+        //    con.Response.End();
+        //}
+        //[WebMethod]
+        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        //public void GetPublicRequested()
+        //{
+        //    var query = (from p in bd.publicacions
+        //                 join s in bd.solicituds on p.id equals s.idpublicacion                         
+        //                 select new
+        //                 {
+        //                     total = p.id
+        //                 }).Count();            
+        //    con.Response.ContentType = "application/json";
+        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");            
+        //    json = JsonConvert.SerializeObject(query);
+        //    con.Response.Write(json);
+        //    con.Response.End();
+        //}
+        //[WebMethod]
+        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        //public void GetPublicRequestedByDate(DateTime inicio, DateTime final)
+        //{
+        //    var query = (from p in bd.publicacions
+        //                 join s in bd.solicituds on p.id equals s.idpublicacion
+        //                 where p.fecha >= inicio && p.fecha <= final
+        //                 select new
+        //                 {
+        //                     total = p.id
+        //                 }).Count();
+        //    json = JsonConvert.SerializeObject(query);
+        //    con.Response.ContentType = "application/json";
+        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");  
+        //    con.Response.Write(json);
+        //    con.Response.End();
+        //}
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void chartsAllPublic()
-        {            
-            var query = (from s in bd.solicituds
-                         join p in bd.publicacions on s.idpublicacion equals p.id 
+        public void GetAllCategory()
+        {
+            var query = (from ca in bd.categoriaTs
+                         join p in bd.publicacions on ca.id equals p.idcategorias
+                         group ca by ca.nombre into g
                          select new
-                         {                             
-                             total = p.id
+                         {
+                             total= g.Key                 
                          }).Count();
-            json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
             con.Response.Write(json);
             con.Response.End();
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetPublicRequestedByDate(DateTime inicio, DateTime final)
+        public void GetAllCategoryByDate(DateTime inicio, DateTime final)
         {
-            var query = (from p in bd.publicacions
-                         join s in bd.solicituds on p.id equals s.idpublicacion
+            var query = (from ca in bd.categoriaTs
+                         join p in bd.publicacions on ca.id equals p.idcategorias
                          where p.fecha >= inicio && p.fecha <= final
+                         group ca by ca.nombre into g
                          select new
                          {
-                             total = p.id
+                             total = g.Key
                          }).Count();
-            json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
-            var group = (from c in bd.categoriaTs
-                         join p in bd.publicacions on c.id equals p.idcategorias into g
-                         select new
-                         {
-                             nombre = c.nombre,
-                             popularidad = g.Count()
-                         });
-            json = JsonConvert.SerializeObject(group);
+            json = JsonConvert.SerializeObject(query);
             con.Response.Write(json);
             con.Response.End();
         }
@@ -558,23 +647,19 @@ namespace WebServisFemsJup
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             con.Response.Write(json);
             con.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void uploadIcon(string img, int id) {
-            string url = img;
-            var webClient = new WebClient();
-            byte[] imageBytes = webClient.DownloadData(url);
-            var lista = bd.categoriaTs.FirstOrDefault(b => b.id == id);
-            lista.icono = imageBytes;
-            bd.SaveChanges();
-        }
+        }      
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetPublicCategory()
         {
-            var query = from publiporcate in bd.publiporcates
-                        select publiporcate;
+            var query = (from ca in bd.categoriaTs
+                         join p in bd.publicacions on ca.id equals p.idcategorias                         
+                         group ca by ca.nombre into g
+                         select new
+                         {
+                             nombre = g.Key,
+                             popularidad = g.Count(),
+                         });
             json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");            
@@ -598,6 +683,231 @@ namespace WebServisFemsJup
             json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetSolicitudesPub(DateTime inicio, DateTime final)
+        {        
+            var query = (from s in bd.solicituds
+                         join p in bd.publicacions on s.idpublicacion equals p.id
+                         where p.fecha >= inicio && p.fecha <= final
+                         group s by s.idpublicacion into g
+                         select new
+                         {                             
+                             idpublicacion = g.Key,
+                             solicitudes = g.Count()
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetPerfilUsu()
+        {
+            var query = (from u in bd.usuarios
+                         join per in bd.perfils on u.idperfil equals per.id
+                         group per by per.tipoperfil into g
+                         select new
+                         {
+                             tipoperfil = g.Key,
+                             popularidad = g.Count()
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetAllPerfiles()
+        {
+            var query = (from per in bd.perfils                         
+                         group per by per.id into g
+                         select new
+                         {
+                             total = g.Key
+                         }).Count();
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetAllUsers()
+        {
+            var query = (from u in bd.usuarios
+                         group u by u.id into g
+                         select new
+                         {
+                             total = g.Key
+                         }).Count();
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetUsuariosReportan()
+        {
+            var query = (from i in bd.insidencias
+                         join u in bd.usuarios on i.idusuario equals u.id
+                         join urep in bd.usuarios on i.idusreportado equals urep.id
+                         join per in bd.perfils on u.idperfil equals per.id
+                         join perrep in bd.perfils on urep.idperfil equals perrep.id
+                         group per by per.tipoperfil into g
+                         select new
+                         {
+                             usuarioreportan = g.Key,
+                             popularidad = g.Count()
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetUsuariosReportados()
+        {
+            var query = (from i in bd.insidencias
+                         join u in bd.usuarios on i.idusuario equals u.id
+                         join urep in bd.usuarios on i.idusreportado equals urep.id
+                         join per in bd.perfils on u.idperfil equals per.id
+                         join perrep in bd.perfils on urep.idperfil equals perrep.id
+                         group perrep by perrep.tipoperfil into g
+                         select new
+                         {
+                             usuarioreportan = g.Key,
+                             popularidad = g.Count()
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetCorreoReportan(string correo)
+        {
+            var query = (from i in bd.insidencias
+                         join u in bd.usuarios on i.idusuario equals u.id
+                         join urep in bd.usuarios on i.idusreportado equals urep.id
+                         where u.email == correo
+                         group u by u.id into g
+                         select new
+                         {                             
+                             popularidad = g.Count()
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetCorreoReportados(string correo)
+        {
+            var query = (from i in bd.insidencias
+                         join u in bd.usuarios on i.idusuario equals u.id
+                         join urep in bd.usuarios on i.idusreportado equals urep.id
+                         where urep.email == correo
+                         group urep by urep.id into g
+                         select new
+                         {                          
+                             popularidad = g.Count()
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        //[WebMethod]
+        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        //public void GetAllUsersEmpleadas()
+        //{
+        //    var query = (from u in bd.usuarios
+        //                 where u.idperfil==2
+        //                 group u by u.id into g
+        //                 select new
+        //                 {
+        //                     total = g.Key
+        //                 }).Count();
+        //    con.Response.ContentType = "application/json";
+        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+        //    json = JsonConvert.SerializeObject(query);
+        //    con.Response.Write(json);
+        //    con.Response.End();
+        //}
+        //[WebMethod]
+        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        //public void GetAllUsersEmpleadores()
+        //{
+        //    var query = (from u in bd.usuarios
+        //                 where u.idperfil == 3
+        //                 group u by u.id into g
+        //                 select new
+        //                 {
+        //                     total = g.Key
+        //                 }).Count();
+        //    con.Response.ContentType = "application/json";
+        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+        //    json = JsonConvert.SerializeObject(query);
+        //    con.Response.Write(json);
+        //    con.Response.End();
+        //}
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetUsuariosSoliTOP()
+        {
+            var query = (from s in bd.solicituds
+                         join u in bd.usuarios on s.idusuario equals u.id                                                  
+                         group u by u.email into g
+                         select new
+                         {
+                             usuarios = g.Key,
+                             popularidad = g.Count()
+                         }).Take(3);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetUsuariosPubliTOP()
+        {
+            var query = (from p in bd.publicacions
+                         join u in bd.usuarios on p.idusuario equals u.id
+                         group u by u.email into g
+                         select new
+                         {
+                             usuarios = g.Key,
+                             popularidad = g.Count()
+                         }).Take(3);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
             con.Response.Write(json);
             con.Response.End();
         }
