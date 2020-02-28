@@ -10,6 +10,7 @@ using System.Data.Entity;
 using System.Data;
 using System.Net;
 using System.Data.Entity.SqlServer;
+using RestSharp;
 
 namespace WebServisFemsJup
 {
@@ -530,7 +531,32 @@ namespace WebServisFemsJup
             bd.SaveChanges();
 
         }
-       
+        [WebMethod]
+        public void UploadFile() {
+            var request = HttpContext.Current.Request;
+            if (request != null)
+            {
+                var photo = request.Files["file"];
+                if (photo != null)
+                {
+                    json = JsonConvert.SerializeObject(photo.FileName);
+                    photo.SaveAs(HttpContext.Current.Server.MapPath("img/" + photo.FileName));
+                    con.Response.Write(json);
+                }
+                else {
+                    json = JsonConvert.SerializeObject("No hay nada");
+                    con.Response.Write(json);
+                }
+                
+            }
+            else {
+                json = JsonConvert.SerializeObject("NO");
+                con.Response.Write(json);
+            }
+            con.Response.End();
+
+        }
+
 
     }
 }
