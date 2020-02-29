@@ -911,5 +911,32 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+        public void UploadFile()//Subir imagen desde android al servidor
+        {
+            var request = HttpContext.Current.Request;
+            if (request != null)
+            {
+                var photo = request.Files["file"];
+                if (photo != null)
+                {
+                    json = JsonConvert.SerializeObject(photo.FileName);
+                    photo.SaveAs(HttpContext.Current.Server.MapPath("img/" + photo.FileName));
+                    con.Response.Write(json);
+                }
+                else
+                {
+                    json = JsonConvert.SerializeObject("No hay nada");
+                    con.Response.Write(json);
+                }
+
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject("NO");
+                con.Response.Write(json);
+            }
+            con.Response.End();
+
+        }
     }
 }
