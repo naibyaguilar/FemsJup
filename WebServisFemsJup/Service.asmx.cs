@@ -839,40 +839,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-        //[WebMethod]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public void GetAllUsersEmpleadas()
-        //{
-        //    var query = (from u in bd.usuarios
-        //                 where u.idperfil==2
-        //                 group u by u.id into g
-        //                 select new
-        //                 {
-        //                     total = g.Key
-        //                 }).Count();
-        //    con.Response.ContentType = "application/json";
-        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");
-        //    json = JsonConvert.SerializeObject(query);
-        //    con.Response.Write(json);
-        //    con.Response.End();
-        //}
-        //[WebMethod]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public void GetAllUsersEmpleadores()
-        //{
-        //    var query = (from u in bd.usuarios
-        //                 where u.idperfil == 3
-        //                 group u by u.id into g
-        //                 select new
-        //                 {
-        //                     total = g.Key
-        //                 }).Count();
-        //    con.Response.ContentType = "application/json";
-        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");
-        //    json = JsonConvert.SerializeObject(query);
-        //    con.Response.Write(json);
-        //    con.Response.End();
-        //}
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
