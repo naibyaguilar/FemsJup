@@ -811,8 +811,8 @@ namespace WebServisFemsJup
                          group u by u.id into g
                          select new
                          {                             
-                             popularidad = g.Count()
-                         });
+                             total = g.Key
+                         }).Count();
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             json = JsonConvert.SerializeObject(query);
@@ -831,8 +831,8 @@ namespace WebServisFemsJup
                          group urep by urep.id into g
                          select new
                          {                          
-                             popularidad = g.Count()
-                         });
+                             total = g.Key,
+                         }).Count();
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             json = JsonConvert.SerializeObject(query);
@@ -871,6 +871,27 @@ namespace WebServisFemsJup
                              usuarios = g.Key,
                              popularidad = g.Count()
                          }).Take(3);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void GetSolicitudes(int idusuario)
+        {
+            var query = (from s in bd.solicituds
+                         join p in bd.publicacions on s.idpublicacion equals p.id
+                         join u in bd.usuarios on s.idusuario equals u.id
+                         join per in bd.personas on u.idpersona equals per.id
+                         where u.id== idusuario
+                         select new
+                         {
+                             titulo = p.titulo,
+                             nombre = per.nombre,
+                             apellido = per.apellido
+                         });
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             json = JsonConvert.SerializeObject(query);
