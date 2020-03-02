@@ -858,7 +858,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetUsuariosPubliTOP()
