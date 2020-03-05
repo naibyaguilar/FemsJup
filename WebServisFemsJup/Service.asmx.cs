@@ -146,13 +146,13 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GeTPublicacion(string id)
+        public void GeTPublicacion(string idpublic)
         {
             var list = (from pub in bd.publicacions 
                         join c in bd.categoriaTs on pub.idcategorias equals c.id
                         join us in bd.usuarios on pub.idusuario equals us.id
                         join pe in bd.personas on us.idpersona equals pe.id
-                        where c.id.ToString().Contains(id) && pub.estatus == 1 //aprobado
+                        where pub.id.ToString().Contains(idpublic) && pub.estatus == 1 //aprobado
                         select new
                         {
                             Titulo = pub.titulo,
