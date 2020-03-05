@@ -146,13 +146,13 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GeTPublicacion(string idpublic)
+        public void GeTPublicacion(string id)
         {
             var list = (from pub in bd.publicacions 
                         join c in bd.categoriaTs on pub.idcategorias equals c.id
                         join us in bd.usuarios on pub.idusuario equals us.id
                         join pe in bd.personas on us.idpersona equals pe.id
-                        where pub.id.ToString().Contains(idpublic) && pub.estatus == 1 //aprobado
+                        where c.id.ToString().Contains(id) && pub.estatus == 1 //aprobado
                         select new
                         {
                             Titulo = pub.titulo,
@@ -433,7 +433,7 @@ namespace WebServisFemsJup
         //Administrador    
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void UpUserStatus(int iduser, int estatus)
+        public void AdmUpUserStatus(int iduser, int estatus)
         {            
             var query = from usuario in bd.usuarios
                         where usuario.id == iduser
@@ -464,7 +464,7 @@ namespace WebServisFemsJup
         }       
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void AddUsuarioAdmin(
+        public void AdmAddUsuarioAdmin(
             string email,
             string pass,
             string nombre,
@@ -505,7 +505,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsersAdmin()
+        public void AdmGetUsers()
         {
             var datos = from p in bd.personas
                         join u in bd.usuarios on p.id equals u.idpersona
@@ -533,58 +533,10 @@ namespace WebServisFemsJup
             Context.Response.End();
 
         }
-        //[WebMethod]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public void chartsAllPublic()
-        //{            
-        //    var query = (from s in bd.solicituds
-        //                 join p in bd.publicacions on s.idpublicacion equals p.id 
-        //                 select new
-        //                 {                             
-        //                     total = p.id
-        //                 }).Count();
-        //    json = JsonConvert.SerializeObject(query);
-        //    con.Response.ContentType = "application/json";
-        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");
-        //    con.Response.Write(json);
-        //    con.Response.End();
-        //}
-        //[WebMethod]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public void GetPublicRequested()
-        //{
-        //    var query = (from p in bd.publicacions
-        //                 join s in bd.solicituds on p.id equals s.idpublicacion                         
-        //                 select new
-        //                 {
-        //                     total = p.id
-        //                 }).Count();            
-        //    con.Response.ContentType = "application/json";
-        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");            
-        //    json = JsonConvert.SerializeObject(query);
-        //    con.Response.Write(json);
-        //    con.Response.End();
-        //}
-        //[WebMethod]
-        //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        //public void GetPublicRequestedByDate(DateTime inicio, DateTime final)
-        //{
-        //    var query = (from p in bd.publicacions
-        //                 join s in bd.solicituds on p.id equals s.idpublicacion
-        //                 where p.fecha >= inicio && p.fecha <= final
-        //                 select new
-        //                 {
-        //                     total = p.id
-        //                 }).Count();
-        //    json = JsonConvert.SerializeObject(query);
-        //    con.Response.ContentType = "application/json";
-        //    con.Response.AddHeader("Access-Control-Allow-Origin", "*");  
-        //    con.Response.Write(json);
-        //    con.Response.End();
-        //}
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetAllCategory()
+        public void AdmGetAllCategory()
         {
             var query = (from ca in bd.categoriaTs
                          join p in bd.publicacions on ca.id equals p.idcategorias
@@ -601,7 +553,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetAllCategoryByDate(DateTime inicio, DateTime final)
+        public void AdmGetAllCategoryByDate(DateTime inicio, DateTime final)
         {
             var query = (from ca in bd.categoriaTs
                          join p in bd.publicacions on ca.id equals p.idcategorias
@@ -619,7 +571,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetAllPublic()
+        public void AdmGetAllPublic()
         {
             var query = (from p in bd.publicacions
                          select new
@@ -634,7 +586,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetAllPublicByDate(DateTime inicio, DateTime final)
+        public void AdmGetAllPublicByDate(DateTime inicio, DateTime final)
         {
             var query = (from p in bd.publicacions
                          where p.fecha >= inicio && p.fecha <= final
@@ -650,7 +602,7 @@ namespace WebServisFemsJup
         }      
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetPublicCategory()
+        public void AdmGetPublicCategory()
         {
             var query = (from ca in bd.categoriaTs
                          join p in bd.publicacions on ca.id equals p.idcategorias                         
@@ -668,7 +620,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetPublicCategoryDate(DateTime inicio, DateTime final)
+        public void AdmGetPublicCategoryDate(DateTime inicio, DateTime final)
         {
             var query = (from ca in bd.categoriaTs
                          join p in bd.publicacions on ca.id equals p.idcategorias
@@ -688,7 +640,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetSolicitudesPub(DateTime inicio, DateTime final)
+        public void AdmGetSolicitudesPub(DateTime inicio, DateTime final)
         {        
             var query = (from s in bd.solicituds
                          join p in bd.publicacions on s.idpublicacion equals p.id
@@ -708,7 +660,7 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetPerfilUsu()
+        public void AdmGetPerfilUsu()
         {
             var query = (from u in bd.usuarios
                          join per in bd.perfils on u.idperfil equals per.id
@@ -726,7 +678,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetAllPerfiles()
+        public void AdmGetAllPerfiles()
         {
             var query = (from per in bd.perfils                         
                          group per by per.id into g
@@ -742,7 +694,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetAllUsers()
+        public void AdmGetAllUsers()
         {
             var query = (from u in bd.usuarios
                          group u by u.id into g
@@ -759,7 +711,7 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsuariosReportan()
+        public void AdmUsuariosReportan()
         {
             var query = (from i in bd.insidencias
                          join u in bd.usuarios on i.idusuario equals u.id
@@ -780,7 +732,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsuariosReportados()
+        public void AdmGetUsuariosReportados()
         {
             var query = (from i in bd.insidencias
                          join u in bd.usuarios on i.idusuario equals u.id
@@ -802,7 +754,7 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetCorreoReportan(string correo)
+        public void AdmGetCorreoReportan(string correo)
         {
             var query = (from i in bd.insidencias
                          join u in bd.usuarios on i.idusuario equals u.id
@@ -822,7 +774,7 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetCorreoReportados(string correo)
+        public void AdmGetCorreoReportados(string correo)
         {
             var query = (from i in bd.insidencias
                          join u in bd.usuarios on i.idusuario equals u.id
@@ -842,7 +794,7 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsuariosSoliTOP()
+        public void AdmGetUsuariosSoliTOP()
         {
             var query = (from s in bd.solicituds
                          join u in bd.usuarios on s.idusuario equals u.id                                                  
@@ -860,7 +812,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsuariosPubliTOP()
+        public void AdmGetUsuariosPubliTOP()
         {
             var query = (from p in bd.publicacions
                          join u in bd.usuarios on p.idusuario equals u.id
@@ -878,13 +830,13 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetSolicitudes(int idusuario)
+        public void GetSolicitudes(int idpublic)
         {
             var query = (from s in bd.solicituds
                          join p in bd.publicacions on s.idpublicacion equals p.id
                          join u in bd.usuarios on s.idusuario equals u.id
                          join per in bd.personas on u.idpersona equals per.id
-                         where u.id== idusuario
+                         where p.id== idpublic
                          select new
                          {
                              titulo = p.titulo,
