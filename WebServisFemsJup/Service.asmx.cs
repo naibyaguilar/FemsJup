@@ -71,6 +71,7 @@ namespace WebServisFemsJup
                                   {
                                       id = us.id,
                                       idperfil = us.idperfil,
+                                      idpersona = us.idpersona,
                                       nombre =pe.nombre,
                                       apellido=pe.apellido,
                                       telefono=pe.telefono,
@@ -870,6 +871,8 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void UploadFile()//Subir imagen desde android al servidor
         {
             var request = HttpContext.Current.Request;
@@ -878,8 +881,10 @@ namespace WebServisFemsJup
                 var photo = request.Files["file"];
                 if (photo != null)
                 {
-                    json = JsonConvert.SerializeObject(photo.FileName);
-                    photo.SaveAs(HttpContext.Current.Server.MapPath("img/" + photo.FileName));
+                    string url = "http://alexander14-001-site1.dtempurl.com/image/";
+                    string respuesta = url + photo.FileName;
+                    photo.SaveAs(HttpContext.Current.Server.MapPath("image/" + photo.FileName));
+                    json = JsonConvert.SerializeObject(respuesta);
                     con.Response.Write(json);
                 }
                 else
@@ -896,6 +901,31 @@ namespace WebServisFemsJup
             }
             con.Response.End();
 
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void uploadfotoperfil(string img, int id)
+        {          
+            var lista = bd.personas.FirstOrDefault(b => b.id == id);
+            lista.fotoperfil = img;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void validarEmail(string email) {
+            var lista = bd.usuarios.Where(b => b.email == email.TrimStart().TrimEnd()).ToList();
+            if (lista.Count() > 0)
+            {
+                json = JsonConvert.SerializeObject(1);
+            }
+            else {
+                json = JsonConvert.SerializeObject(2);
+            }
+            con.Response.Write(json);
+            con.Response.End();
         }
     }
 }
