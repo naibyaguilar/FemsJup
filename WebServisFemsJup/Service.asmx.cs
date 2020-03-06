@@ -391,11 +391,11 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void AddSolicitud(int idusuario, int idpublicacion, string f_citar, string f_trabajo, string descripcion, int estatus, string @long, string lat)
+        public void AddSolicitud(int idusuario, int idpublicacion, string f_citar, string f_trabajo, string descripcion, string @long, string lat)
         {
             sol.idusuario = idusuario;
             sol.idpublicacion = idpublicacion;
-            sol.estatus = estatus;
+            sol.estatus = 1;
             sol.f_citar = Convert.ToDateTime(f_citar);
             sol.f_trabajo = Convert.ToDateTime(f_trabajo);
             sol.descripcion = descripcion;
