@@ -574,6 +574,7 @@ namespace WebServisFemsJup
         {
             var query = (from ca in bd.categoriaTs
                          join p in bd.publicacions on ca.id equals p.idcategorias
+                         join s in bd.solicituds on ca.id equals s.id
                          group ca by ca.nombre into g
                          select new
                          {
@@ -929,3 +930,4 @@ namespace WebServisFemsJup
         }
     }
 }
+
