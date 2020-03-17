@@ -574,12 +574,11 @@ namespace WebServisFemsJup
         {
             var query = (from ca in bd.categoriaTs
                          join p in bd.publicacions on ca.id equals p.idcategorias
-                         join s in bd.solicituds on ca.id equals s.id
+                         join s in bd.solicituds on p.id equals s.idpublicacion
                          group ca by ca.nombre into g
                          select new
-                         {
-                             nombre = g.Key,
-                             popularidad = g.Count(),
+                         {                             
+                             solicitudes = g.Count(),                             
                          });
             json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
@@ -597,7 +596,7 @@ namespace WebServisFemsJup
                          select new
                          {
                              nombre = g.Key,
-                             popularidad = g.Count(),
+                             publicaciones = g.Count(),
                          });
             json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
