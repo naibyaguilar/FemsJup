@@ -124,6 +124,7 @@ namespace WebServisFemsJup
                         join u in bd.usuarios on p.id equals u.idpersona
                         join per in bd.perfils on u.idperfil equals per.id
                         where u.estatus == estatus && per.id != 1
+                        orderby u.id descending
                         select new
                         {
                             ID = u.id,
@@ -134,7 +135,7 @@ namespace WebServisFemsJup
                             Sexo = p.sexo,
                             Curp = p.curp,
                             Perfil = per.tipoperfil,
-
+                            Imagen = p.fotoperfil,
                         };
             //Se convierte a JSON
             string SalidaJSON = string.Empty;
