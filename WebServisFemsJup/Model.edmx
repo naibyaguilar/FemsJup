@@ -36,7 +36,16 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="icono" Type="varbinary" MaxLength="800" />
+          <Property Name="icono" Type="varbinary(max)" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.colors' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="colors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codigo" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="elemento">
           <Key>
@@ -62,6 +71,13 @@
           <Property Name="idelempermiso" Type="int" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.estatus' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="estatus">
+          <Property Name="id" Type="int" />
+          <Property Name="nombre" Type="varchar(max)" />
+          <Property Name="tabla" Type="varchar(max)" />
+        </EntityType>-->
         <EntityType Name="insidencia">
           <Key>
             <PropertyRef Name="id" />
@@ -72,6 +88,7 @@
           <Property Name="mensaje" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="estatus" Type="int" Nullable="false" />
           <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="tipo" Type="int" />
         </EntityType>
         <EntityType Name="modulo">
           <Key>
@@ -117,6 +134,7 @@
           <Property Name="long" Type="varchar(max)" />
           <Property Name="lat" Type="varchar(max)" />
           <Property Name="idinteres" Type="int" Nullable="false" />
+          <Property Name="documento" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="publicacion">
           <Key>
@@ -161,6 +179,13 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.tipo' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="tipo">
+          <Property Name="id" Type="int" />
+          <Property Name="nombre" Type="varchar(max)" />
+          <Property Name="tabla" Type="varchar(max)" />
+        </EntityType>-->
         <EntityType Name="usuario">
           <Key>
             <PropertyRef Name="id" />
@@ -471,6 +496,12 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <EntitySet Name="solicitud" EntityType="Self.solicitud" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="usuario" EntityType="Self.usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="colors" EntityType="Self.colors" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [colors].[id] AS [id], 
+    [colors].[codigo] AS [codigo]
+    FROM [dbo].[colors] AS [colors]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="score" EntityType="Self.score" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [score].[id] AS [id], 
@@ -601,7 +632,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <NavigationProperty Name="actividades" Relationship="Self.FK_idcategorias" FromRole="categoriaT" ToRole="actividades" />
           <NavigationProperty Name="publicacions" Relationship="Self.FK_idcategorias1" FromRole="categoriaT" ToRole="publicacion" />
           <NavigationProperty Name="personas" Relationship="Self.FK_interes1" FromRole="categoriaT" ToRole="persona" />
-          <Property Name="icono" Type="Binary" />
+          <Property Name="icono" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="elemento">
           <Key>
@@ -646,6 +677,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="usuario" Relationship="Self.FK_usuario4" FromRole="insidencia" ToRole="usuario" />
           <NavigationProperty Name="usuario1" Relationship="Self.FK_usuario5" FromRole="insidencia" ToRole="usuario" />
+          <Property Name="tipo" Type="Int32" />
         </EntityType>
         <EntityType Name="modulo">
           <Key>
@@ -701,6 +733,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Property Name="idinteres" Type="Int32" Nullable="false" />
           <NavigationProperty Name="categoriaT" Relationship="Self.FK_interes1" FromRole="persona" ToRole="categoriaT" />
           <NavigationProperty Name="usuarios" Relationship="Self.FK_idpersona2" FromRole="persona" ToRole="usuario" />
+          <Property Name="documento" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="publicacion">
           <Key>
@@ -1146,6 +1179,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <EntitySet Name="colors" EntityType="DB_A54C28_alexander14Model.color" />
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1158,6 +1192,13 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <EntityType Name="color">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codigo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1231,6 +1272,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <EntitySetMapping Name="insidencias">
             <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.insidencia">
               <MappingFragment StoreEntitySet="insidencia">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idusuario" ColumnName="idusuario" />
                 <ScalarProperty Name="idusreportado" ColumnName="idusreportado" />
@@ -1276,6 +1318,7 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <EntitySetMapping Name="personas">
             <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.persona">
               <MappingFragment StoreEntitySet="persona">
+                <ScalarProperty Name="documento" ColumnName="documento" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="apellido" ColumnName="apellido" />
@@ -1381,6 +1424,14 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DB_A54C28_alexander14Model.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DB_A54C28_alexander14Model.Store.sp_upgraddiagrams" />
+          <EntitySetMapping Name="colors">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.color">
+              <MappingFragment StoreEntitySet="colors">
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

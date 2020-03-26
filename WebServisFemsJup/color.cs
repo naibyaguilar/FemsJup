@@ -12,9 +12,9 @@ namespace WebServisFemsJup
     using System;
     using System.Collections.Generic;
     
-    public partial class publiporcate
+    public partial class color
     {
-        public string nombre { get; set; }
-        public Nullable<int> popularidad { get; set; }
+        public int id { get; set; }
+        public string codigo { get; set; }
     }
 }
