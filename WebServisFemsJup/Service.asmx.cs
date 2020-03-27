@@ -636,7 +636,7 @@ namespace WebServisFemsJup
                          select new
                          {
                              nombre = g.Key,
-                             publicaciones = g.Count(),
+                             popularidad = g.Count(),
                          });
             json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
