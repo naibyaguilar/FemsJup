@@ -232,14 +232,15 @@ namespace WebServisFemsJup
                             }),
                             interes = c.id,
                             icono = c.icono,
-                            radio = pub.radio
+                            radio = pub.radio,
+                            categoria= c.nombre
 
                         });
             json = JsonConvert.SerializeObject(list);
             con.Response.Write(json);
             con.Response.End();
         }
-
+        
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void App_GeTPublicacionPorUser(int id)
@@ -336,7 +337,7 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
+        
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void App_AddSolicitud(int idusuario, int idpublicacion, string f_citar, string f_trabajo, string descripcion, string @long, string lat)
