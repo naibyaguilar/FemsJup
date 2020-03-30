@@ -199,6 +199,15 @@ advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.tipo' no tiene def
           <Property Name="estatus" Type="int" />
         </EntityType>
         <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.publiporcate' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="publiporcate">
+          <Key>
+            <PropertyRef Name="nombre" />
+          </Key>
+          <Property Name="nombre" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="popularidad" Type="int" />
+        </EntityType>
+        <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="score">
           <Key>
@@ -206,6 +215,31 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           </Key>
           <Property Name="id" Type="int" Nullable="false" />
           <Property Name="calificacion" Type="decimal" Precision="15" Scale="1" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.solipubli' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="solipubli">
+          <Property Name="titulo" Type="varchar" MaxLength="50" />
+          <Property Name="popularidad" Type="int" />
+        </EntityType>-->
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.total_publi' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="total_publi">
+          <Property Name="id" Type="int" />
+        </EntityType>-->
+        <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.total_publi_soli' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="total_publi_soli">
+          <Property Name="id" Type="int" />
+        </EntityType>-->
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.usuariosoli' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="usuariosoli">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="id_soli" Type="int" />
         </EntityType>
         <Association Name="FK_actividades1">
           <End Role="actividades" Type="Self.actividades" Multiplicity="1" />
@@ -502,11 +536,23 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
     [colors].[codigo] AS [codigo]
     FROM [dbo].[colors] AS [colors]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="publiporcate" EntityType="Self.publiporcate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [publiporcate].[nombre] AS [nombre], 
+    [publiporcate].[popularidad] AS [popularidad]
+    FROM [dbo].[publiporcate] AS [publiporcate]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="score" EntityType="Self.score" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [score].[id] AS [id], 
     [score].[calificacion] AS [calificacion]
     FROM [dbo].[score] AS [score]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="usuariosoli" EntityType="Self.usuariosoli" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [usuariosoli].[email] AS [email], 
+    [usuariosoli].[id_soli] AS [id_soli]
+    FROM [dbo].[usuariosoli] AS [usuariosoli]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_actividades1" Association="Self.FK_actividades1">
             <End Role="actividades" EntitySet="actividades" />
@@ -1180,6 +1226,8 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <EntitySet Name="colors" EntityType="DB_A54C28_alexander14Model.color" />
+          <EntitySet Name="publiporcates" EntityType="DB_A54C28_alexander14Model.publiporcate" />
+          <EntitySet Name="usuariosolis" EntityType="DB_A54C28_alexander14Model.usuariosoli" />
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -1198,6 +1246,20 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="codigo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="publiporcate">
+          <Key>
+            <PropertyRef Name="nombre" />
+          </Key>
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="popularidad" Type="Int32" />
+        </EntityType>
+        <EntityType Name="usuariosoli">
+          <Key>
+            <PropertyRef Name="email" />
+          </Key>
+          <Property Name="email" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="id_soli" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1429,6 +1491,22 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
               <MappingFragment StoreEntitySet="colors">
                 <ScalarProperty Name="codigo" ColumnName="codigo" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="publiporcates">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.publiporcate">
+              <MappingFragment StoreEntitySet="publiporcate">
+                <ScalarProperty Name="popularidad" ColumnName="popularidad" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuariosolis">
+            <EntityTypeMapping TypeName="DB_A54C28_alexander14Model.usuariosoli">
+              <MappingFragment StoreEntitySet="usuariosoli">
+                <ScalarProperty Name="id_soli" ColumnName="id_soli" />
+                <ScalarProperty Name="email" ColumnName="email" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

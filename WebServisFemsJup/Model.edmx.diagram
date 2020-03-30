@@ -45,6 +45,7 @@
         <AssociationConnector Association="DB_A54C28_alexander14Model.FK_usuario7" ManuallyRouted="false" />
         <EntityTypeShape EntityType="DB_A54C28_alexander14Model.publiporcate" Width="1.5" PointX="4.625" PointY="0.75" />
         <EntityTypeShape EntityType="DB_A54C28_alexander14Model.color" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_A54C28_alexander14Model.usuariosoli" Width="1.5" PointX="7.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
