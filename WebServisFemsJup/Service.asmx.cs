@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Services;
-using Newtonsoft.Json;
-using System.Web.Script.Services;
+﻿using Newtonsoft.Json;
 using SimpleCrypto;
-using System.Data.Entity;
+using System;
 using System.Data;
+using System.Data.Entity;
+using System.Linq;
 using System.Net;
-using System.Data.Entity.SqlServer;
+using System.Web;
+using System.Web.Script.Services;
+using System.Web.Services;
+
 
 namespace WebServisFemsJup
 {
@@ -124,6 +123,7 @@ namespace WebServisFemsJup
                         join u in bd.usuarios on p.id equals u.idpersona
                         join per in bd.perfils on u.idperfil equals per.id
                         where u.estatus == estatus && per.id != 1
+                        orderby u.id descending
                         select new
                         {
                             ID = u.id,
@@ -134,7 +134,7 @@ namespace WebServisFemsJup
                             Sexo = p.sexo,
                             Curp = p.curp,
                             Perfil = per.tipoperfil,
-
+                            Imagen = p.fotoperfil,
                         };
             //Se convierte a JSON
             string SalidaJSON = string.Empty;
@@ -156,6 +156,7 @@ namespace WebServisFemsJup
                         where c.id.ToString().Contains(id) && pub.estatus == 1 //aprobado
                         select new
                         {
+                            idpu = pub.id,
                             Titulo = pub.titulo,
                             descripcion = pub.descripcion,
                             fecha = pub.fecha,
@@ -220,13 +221,13 @@ namespace WebServisFemsJup
                         {
                             id=cat.id,
                             nombre=cat.nombre,
-                            icono = cat.icono
+                            icono = cat.icono,                            
                         }).ToList();
             json = JsonConvert.SerializeObject(list);
             con.Response.Write(json);
             con.Response.End();
-
         }
+      
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetActividades(int id)
@@ -361,7 +362,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Addpublicacion(int idcategorias, int idusuario, string descripcion, string fecha,int tarifa, string extra, int estatus, string dispo, string longi, string lat, string actividades, string titulo)
+        public void Addpublicacion(int idcategorias, int idusuario, string descripcion, string fecha,int tarifa, string extra, int estatus, string dispo, string longi, string lat, string titulo,string radio)
         {
             pub.idcategorias = idcategorias;
             pub.idusuario = idusuario;
@@ -374,15 +375,9 @@ namespace WebServisFemsJup
             pub.@long = longi;
             pub.lat = lat;
             pub.titulo = titulo;
+            pub.radio = radio;
             bd.publicacions.Add(pub);
             int res = bd.SaveChanges();
-            string[] actividad = actividades.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < actividad.Length; i++) {
-                a_p.idactivid = Convert.ToInt32(actividad[i]);
-                a_p.idpublicacion = pub.id;
-                bd.actividadesPublicacions.Add(a_p);
-                bd.SaveChanges();
-            }
             if (res > 0)
                 json = "1";
             else
@@ -508,6 +503,46 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebAddPerfil(string perfil)
+        {
+            perf.tipoperfil = perfil;            
+            bd.perfils.Add(perf);            
+            if (bd.SaveChanges() > 0)
+                json = perf.id.ToString();
+            else
+                json = "0";
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebAddCategory(string category)
+        {
+            caT.nombre = category;
+            bd.categoriaTs.Add(caT);
+            if (bd.SaveChanges() > 0)
+                json = caT.id.ToString();
+            else
+                json = "0";
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebAddActividades(int idcate, string actividad)
+        {
+            act.idcategorias = idcate;
+            act.nombre = actividad;
+            bd.actividades.Add(act);
+            if (bd.SaveChanges() > 0)
+                json = "1";
+            else
+                json = "0";
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void WebGetUsers()
         {
             var datos = from p in bd.personas
@@ -574,11 +609,11 @@ namespace WebServisFemsJup
         {
             var query = (from ca in bd.categoriaTs
                          join p in bd.publicacions on ca.id equals p.idcategorias
+                         join s in bd.solicituds on p.id equals s.idpublicacion
                          group ca by ca.nombre into g
                          select new
-                         {
-                             nombre = g.Key,
-                             popularidad = g.Count(),
+                         {                             
+                             solicitudes = g.Count(),                             
                          });
             json = JsonConvert.SerializeObject(query);
             con.Response.ContentType = "application/json";
@@ -660,7 +695,6 @@ namespace WebServisFemsJup
             con.Response.End();
         }
         //Fin Indicador Publicaciones
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void WebGetSolicitudesPub(DateTime inicio, DateTime final)
@@ -730,7 +764,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void WebUsuariosReportan()
@@ -773,7 +806,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void WebGetCorreoReportan(string correo)
@@ -793,7 +825,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void WebGetCorreoReportados(string correo)
@@ -813,7 +844,6 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void WebGetUsuariosSoliTOP()
@@ -825,7 +855,7 @@ namespace WebServisFemsJup
                          {
                              usuarios = g.Key,
                              popularidad = g.Count()
-                         }).Take(3);
+                         }).Take(5);
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             json = JsonConvert.SerializeObject(query);
@@ -843,13 +873,195 @@ namespace WebServisFemsJup
                          {
                              usuarios = g.Key,
                              popularidad = g.Count()
-                         }).Take(3);
+                         }).Take(5);
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }        
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebDeleteUserAdm(int id)
+        {
+            var remove = (from u in bd.usuarios
+                          where u.id == id                     
+                          select u).FirstOrDefault();
+
+            if (remove != null)
+            {
+                bd.usuarios.Remove(remove);
+                bd.SaveChanges();
+                json = "1";
+            }     
+            else
+                json = "0";            
+
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");           
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebUpdateAdmin(int id, string email, string pass, string nombres, string apellidos, string telefono, string curp, string sexo)
+        {
+            //Usuario
+            var lista = bd.usuarios.FirstOrDefault(u => u.id == id);
+            salt = cryptoService.GenerateSalt();
+            passEncryptada = cryptoService.Compute(pass);
+            lista.email = email;
+            lista.pass = passEncryptada;
+            int idpersona = lista.idpersona;
+            //persona
+            var lista2 = bd.personas.FirstOrDefault(p => p.id == idpersona);
+            lista2.nombre = nombres;
+            lista2.apellido = apellidos;
+            lista2.telefono = telefono;
+            lista2.curp = curp;
+            lista2.sexo = sexo;
+
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        public void WebPerfiles()
+        {
+            var query = (from p in bd.perfils          
+                         select new
+                         {
+                             id = p.id,
+                             perfil = p.tipoperfil,                     
+                         });
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
             json = JsonConvert.SerializeObject(query);
             con.Response.Write(json);
             con.Response.End();
         }
+        [WebMethod]
+        public void WebActividades()
+        {
+            var query = (from a in bd.actividades
+                         join c in bd.categoriaTs on a.idcategorias equals c.id
+                         select new
+                         {
+                             id = a.id,
+                             categoria = c.nombre,
+                             actividad = a.nombre,
+                             idcate= c.id
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebUpdatePerfil(int id, string perfil)
+        {
+            var lista = bd.perfils.FirstOrDefault(p => p.id == id);
+            lista.tipoperfil = perfil;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebDeletePerfil(int id)
+        {
+            var remove = (from perf in bd.perfils
+                          where perf.id == id
+                          select perf).FirstOrDefault();
+
+            if (remove != null)
+            {
+                bd.perfils.Remove(remove);
+                bd.SaveChanges();
+                json = "1";
+            }
+            else
+                json = "0";
+
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebUpdateCategor(int id, string category)
+        {
+            var lista = bd.categoriaTs.FirstOrDefault(cat => cat.id == id);
+            lista.nombre = category;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebDeleteCategory(int id)
+        {
+            var remove = (from cat in bd.categoriaTs
+                          where cat.id == id
+                          select cat).FirstOrDefault();
+
+            if (remove != null)
+            {
+                bd.categoriaTs.Remove(remove);
+                bd.SaveChanges();
+                json = "1";
+            }
+            else
+                json = "0";
+
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebUpdateActividad(int id, int idcate, string actividades)
+        {
+            var lista = bd.actividades.FirstOrDefault(a => a.id == id);
+            lista.idcategorias = idcate;
+            lista.nombre = actividades;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebDeleteActividad(int id)
+        {
+            var remove = (from a in bd.actividades
+                          where a.id == id
+                          select a).FirstOrDefault();
+
+            if (remove != null)
+            {
+                bd.actividades.Remove(remove);
+                bd.SaveChanges();
+                json = "1";
+            }
+            else
+                json = "0";
+
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetSolicitudes(int idpublic)
@@ -861,9 +1073,17 @@ namespace WebServisFemsJup
                          where p.id== idpublic
                          select new
                          {
+                             idpu = s.idpublicacion,
                              titulo = p.titulo,
+                             descripcion = p.descripcion,
                              nombre = per.nombre,
-                             apellido = per.apellido
+                             apellido = per.apellido,
+                             fecha = s.fecha,
+                             fecha_cita = s.f_citar,
+                             fecha_tra = s.f_trabajo,
+                             estatus = s.estatus,
+                             log=s.@long,
+                             lat=s.lat
                          });
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
@@ -927,5 +1147,18 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void upEstatusSolicitud(int idpu, int estatus)
+        {
+            var lista = bd.solicituds.FirstOrDefault(a => a.idpublicacion == idpu);
+            lista.estatus = estatus;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
     }
 }
+

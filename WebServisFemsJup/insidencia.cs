@@ -20,6 +20,7 @@ namespace WebServisFemsJup
         public string mensaje { get; set; }
         public int estatus { get; set; }
         public System.DateTime fecha { get; set; }
+        public Nullable<int> tipo { get; set; }
     
         public virtual usuario usuario { get; set; }
         public virtual usuario usuario1 { get; set; }
