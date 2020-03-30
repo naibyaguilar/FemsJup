@@ -47,41 +47,42 @@ namespace WebServisFemsJup
         ICryptoService cryptoService = new PBKDF2();
 
         public Service()
-        {           
+        {
             bd = new DB_A54C28_alexander14Entities1();
             con = HttpContext.Current;
             con.Response.ContentType = "application/json";
             json = "";
         }
+ //{ Generales --------------------------------------------------------------------------------------------------------------------------
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Login(string email, string pass,int perfil)
+        public void Login(string email, string pass, int perfil)
         {
             var list = bd.usuarios.Where(x => x.email == email && x.idperfil == perfil).FirstOrDefault();
             if (list != null)
             {
                 passEncryptada = cryptoService.Compute(pass, list.salt);
-                if (cryptoService.Compare(list.pass,passEncryptada))
+                if (cryptoService.Compare(list.pass, passEncryptada))
                 {
                     var lista = (from us in bd.usuarios
                                  join pe in bd.personas on us.idpersona equals pe.id
                                  where us.id == list.id
-                                  select new
-                                  {
-                                      id = us.id,
-                                      idperfil = us.idperfil,
-                                      idpersona = us.idpersona,
-                                      nombre =pe.nombre,
-                                      apellido=pe.apellido,
-                                      telefono=pe.telefono,
-                                      sexo=pe.sexo,
-                                      curp=pe.curp,
-                                      fechanacimiento=pe.fechanacimiento,
-                                      longi=pe.@long,
-                                      lat=pe.lat,
-                                      idinteres = pe.idinteres,
-                                      fotoperfil = pe.fotoperfil
-                                  }).ToList();
+                                 select new
+                                 {
+                                     id = us.id,
+                                     idperfil = us.idperfil,
+                                     idpersona = us.idpersona,
+                                     nombre = pe.nombre,
+                                     apellido = pe.apellido,
+                                     telefono = pe.telefono,
+                                     sexo = pe.sexo,
+                                     curp = pe.curp,
+                                     fechanacimiento = pe.fechanacimiento,
+                                     longi = pe.@long,
+                                     lat = pe.lat,
+                                     idinteres = pe.idinteres,
+                                     fotoperfil = pe.fotoperfil
+                                 }).ToList();
                     json = JsonConvert.SerializeObject(lista);
                 }
                 else
@@ -93,125 +94,7 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetPersona(int id)
-        {
-            var lista = (from pe in bd.personas
-                         join us in bd.usuarios on pe.id equals us.idpersona
-                         join cal in bd.scores on us.id equals cal.id
-                         where us.id == id
-                         select new
-                         {
-                             nombre = pe.nombre,
-                             apellido = pe.apellido,
-                             telefono = pe.telefono,
-                             sexo = pe.sexo,
-                             fotoperfil = pe.fotoperfil,
-                             score = cal.calificacion
 
-                         }).ToList();
-            json = JsonConvert.SerializeObject(lista);
-            con.Response.Write(json);
-            con.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetUsersEstatus(int estatus)
-        {
-            var datos = from p in bd.personas
-                        join u in bd.usuarios on p.id equals u.idpersona
-                        join per in bd.perfils on u.idperfil equals per.id
-                        where u.estatus == estatus && per.id != 1
-                        orderby u.id descending
-                        select new
-                        {
-                            ID = u.id,
-                            Correo = u.email,
-                            Nombres = p.nombre,
-                            Apellidos = p.apellido,
-                            Telefono = p.telefono,
-                            Sexo = p.sexo,
-                            Curp = p.curp,
-                            Perfil = per.tipoperfil,
-                            Imagen = p.fotoperfil,
-                        };
-            //Se convierte a JSON
-            string SalidaJSON = string.Empty;
-            SalidaJSON = JsonConvert.SerializeObject(datos);
-            //Salida del webservice
-            HttpContext Contexto = HttpContext.Current;
-            Context.Response.ContentType = "application/json";
-            Context.Response.Write(SalidaJSON);
-            Context.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GeTPublicacion(string id)
-        {
-            var list = (from pub in bd.publicacions 
-                        join c in bd.categoriaTs on pub.idcategorias equals c.id
-                        join us in bd.usuarios on pub.idusuario equals us.id
-                        join pe in bd.personas on us.idpersona equals pe.id
-                        where c.id.ToString().Contains(id) && pub.estatus == 1 //aprobado
-                        select new
-                        {
-                            idpu = pub.id,
-                            Titulo = pub.titulo,
-                            descripcion = pub.descripcion,
-                            fecha = pub.fecha,
-                            tarifa = pub.tarifa,
-                            extra = pub.extra,
-                            dispo = pub.dispo,
-                            lat = pub.lat,
-                            longi =pub.@long,
-                            empleada=pe.nombre+" "+pe.apellido,
-                            actividad = bd.actividades.Join(bd.actividadesPublicacions, a=>a.id, z=>z.idactivid,(a,z)=>new { a =a, z=z }).Where(x => x.z.idpublicacion == pub.id).Select(ac => new { 
-                                 ac.a.nombre
-                            }),
-                            interes = c.id,
-                            icono = c.icono,
-                            radio = pub.radio
-
-                        });
-            json = JsonConvert.SerializeObject(list);
-            con.Response.Write(json);
-            con.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GeTPublicacionPorUser(int id)
-        {
-            var list = (from pub in bd.publicacions
-                        join c in bd.categoriaTs on pub.idcategorias equals c.id
-                        join us in bd.usuarios on pub.idusuario equals us.id
-                        join pe in bd.personas on us.idpersona equals pe.id
-                        where pub.idusuario == id
-                        select new
-                        {
-                            idpublicacion = pub.id,
-                            idusuario= pub.idusuario,
-                            Titulo = pub.titulo,
-                            descripcion = pub.descripcion,
-                            fecha = pub.fecha,
-                            tarifa = pub.tarifa,
-                            extra = pub.extra,
-                            dispo = pub.dispo,
-                            lat = pub.lat,
-                            longi = pub.@long,
-                            empleada = pe.nombre + " " + pe.apellido,
-                            //actividad = bd.actividades.Join(bd.actividadesPublicacions, a => a.id, z => z.idactivid, (a, z) => new { a = a, z = z }).Where(x => x.z.idpublicacion == pub.id).Select(ac => new {
-                            //    ac.a.nombre
-                            //}),
-                            interes = c.id,
-                            //icono = c.icono,
-                            radio = pub.radio
-
-                        });
-            json = JsonConvert.SerializeObject(list);
-            con.Response.Write(json);
-            con.Response.End();
-        }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetCategorias()
@@ -219,15 +102,15 @@ namespace WebServisFemsJup
             var list = (from cat in bd.categoriaTs
                         select new
                         {
-                            id=cat.id,
-                            nombre=cat.nombre,
-                            icono = cat.icono,                            
+                            id = cat.id,
+                            nombre = cat.nombre,
+                            icono = cat.icono,
                         }).ToList();
             json = JsonConvert.SerializeObject(list);
             con.Response.Write(json);
             con.Response.End();
         }
-      
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetActividades(int id)
@@ -247,28 +130,13 @@ namespace WebServisFemsJup
             con.Response.End();
 
         }
-        
-        //ALTAS
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void AddUsuario(
-            string email,
-            string pass, 
-            int idperfil,
-            string nombre, 
-            string apellido, 
-            string telefono, 
-            string sexo, 
-            string curp, 
-            string fechanacimiento, 
-            string fotoperfil, 
-            string longi, 
-            string lat, 
-            int idinteres
-            )
+        public void AddUsuario( string email, string pass, int idperfil, string nombre,string apellido,string telefono, string sexo, string curp, string fechanacimiento, string fotoperfil, string longi, string lat, int idinteres )
         {
-             salt = cryptoService.GenerateSalt();
-             passEncryptada = cryptoService.Compute(pass);
+            salt = cryptoService.GenerateSalt();
+            passEncryptada = cryptoService.Compute(pass);
             {
                 p.nombre = nombre;
                 p.apellido = apellido;
@@ -295,9 +163,121 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Addcalificacion(int idusuario, int puntuacion, string comentario)
+        public void validarEmail(string email)
+        {
+            var lista = bd.usuarios.Where(b => b.email == email.TrimStart().TrimEnd()).ToList();
+            if (lista.Count() > 0)
+            {
+                json = JsonConvert.SerializeObject(1);
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject(2);
+            }
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+// Aplicaciones --------------------------------------------------------------------------------------------------------------------------
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void App_GetPersona(int id)
+        {
+            var lista = (from pe in bd.personas
+                         join us in bd.usuarios on pe.id equals us.idpersona
+                         join cal in bd.scores on us.id equals cal.id
+                         where us.id == id
+                         select new
+                         {
+                             nombre = pe.nombre,
+                             apellido = pe.apellido,
+                             telefono = pe.telefono,
+                             sexo = pe.sexo,
+                             fotoperfil = pe.fotoperfil,
+                             score = cal.calificacion
+
+                         }).ToList();
+            json = JsonConvert.SerializeObject(lista);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void App_GeTPublicacion(string id)
+        {
+            var list = (from pub in bd.publicacions
+                        join c in bd.categoriaTs on pub.idcategorias equals c.id
+                        join us in bd.usuarios on pub.idusuario equals us.id
+                        join pe in bd.personas on us.idpersona equals pe.id
+                        where c.id.ToString() ==id && pub.estatus == 1 //aprobado
+                        select new
+                        {
+                            idpu = pub.id,
+                            Titulo = pub.titulo,
+                            descripcion = pub.descripcion,
+                            fecha = pub.fecha,
+                            tarifa = pub.tarifa,
+                            extra = pub.extra,
+                            dispo = pub.dispo,
+                            lat = pub.lat,
+                            longi = pub.@long,
+                            empleada = pe.nombre + " " + pe.apellido,
+                            actividad = bd.actividades.Join(bd.actividadesPublicacions, a => a.id, z => z.idactivid, (a, z) => new { a = a, z = z }).Where(x => x.z.idpublicacion == pub.id).Select(ac => new {
+                                ac.a.nombre
+                            }),
+                            interes = c.id,
+                            icono = c.icono,
+                            radio = pub.radio
+
+                        });
+            json = JsonConvert.SerializeObject(list);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void App_GeTPublicacionPorUser(int id)
+        {
+            var list = (from pub in bd.publicacions
+                        join c in bd.categoriaTs on pub.idcategorias equals c.id
+                        join us in bd.usuarios on pub.idusuario equals us.id
+                        join pe in bd.personas on us.idpersona equals pe.id
+                        where pub.idusuario == id
+                        select new
+                        {
+                            idpublicacion = pub.id,
+                            idusuario = pub.idusuario,
+                            Titulo = pub.titulo,
+                            descripcion = pub.descripcion,
+                            fecha = pub.fecha,
+                            tarifa = pub.tarifa,
+                            extra = pub.extra,
+                            dispo = pub.dispo,
+                            lat = pub.lat,
+                            longi = pub.@long,
+                            empleada = pe.nombre + " " + pe.apellido,
+                            actividad = bd.actividades.Join(bd.actividadesPublicacions, a => a.id, z => z.idactivid, (a, z) => new { a = a, z = z }).Where(x => x.z.idpublicacion == pub.id).Select(ac => new {
+                              ac.a.nombre
+                            }),
+                            interes = c.id,
+                            icono = c.icono,
+                            radio = pub.radio
+
+                        });
+            json = JsonConvert.SerializeObject(list);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void App_Addcalificacion(int idusuario, int puntuacion, string comentario)
         {
             cal.idusuario = idusuario;
             cal.puntuacion = puntuacion;
@@ -310,41 +290,10 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Addcategoria(string nombre, string actividad1, string actividad2)
-        {
-            caT.nombre = nombre;
-            act.nombre = actividad1;
-            actividade act2 = new actividade();
-            act2.nombre = actividad2;
-            caT.actividades.Add(act);
-            caT.actividades.Add(act2);
-            bd.categoriaTs.Add(caT);
-            if (bd.SaveChanges() > 0)
-                json = "1";
-            else
-                json = "0";
-            con.Response.Write(json);
-            con.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Addactividad(string nombre, int idcategorias)
-        {
-            act.idcategorias = idcategorias;
-            act.nombre = nombre;
-            bd.actividades.Add(act);
-            if (bd.SaveChanges() > 0)
-                json = "1";
-            else
-                json = "0";
-            con.Response.Write(json);
-            con.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Addinsidencia(string mensaje, int idusuario, int idusreportado, int estatus, int tipo, string fecha)
+        public void App_Addinsidencia(string mensaje, int idusuario, int idusreportado, int estatus, int tipo, string fecha)
         {
             ins.idusuario = idusuario;
             ins.idusreportado = idusreportado;
@@ -360,9 +309,10 @@ namespace WebServisFemsJup
             con.Response.End();
 
         }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Addpublicacion(int idcategorias, int idusuario, string descripcion, string fecha,int tarifa, string extra, int estatus, string dispo, string longi, string lat, string titulo,string radio)
+        public void App_Addpublicacion(int idcategorias, int idusuario, string descripcion, string fecha, int tarifa, string extra, int estatus, string dispo, string longi, string lat, string titulo, string radio)
         {
             pub.idcategorias = idcategorias;
             pub.idusuario = idusuario;
@@ -386,9 +336,10 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void AddSolicitud(int idusuario, int idpublicacion, string f_citar, string f_trabajo, string descripcion, string @long, string lat)
+        public void App_AddSolicitud(int idusuario, int idpublicacion, string f_citar, string f_trabajo, string descripcion, string @long, string lat)
         {
             sol.idusuario = idusuario;
             sol.idpublicacion = idpublicacion;
@@ -399,7 +350,7 @@ namespace WebServisFemsJup
             sol.@long = @long;
             sol.lat = lat;
             bd.solicituds.Add(sol);
-            
+
 
             if (bd.SaveChanges() > 0)
                 json = "1";
@@ -407,18 +358,141 @@ namespace WebServisFemsJup
                 json = "0";
             con.Response.Write(json);
             con.Response.End();
-        }        
-        
-        //Cambios
+        }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void upPersona(string email, string pass, string nombre, string apellido, string telefono, string sexo, string curo, string fechanacimiento, string fotoperfil, string @long, string lat, int idinteres, string documento)
+        public void App_upPersona(int id, string email, string pass, string nombre, string apellido, string telefono, string sexo, string curo, string fechanacimiento, string fotoperfil, string @long, string lat, int idinteres, string documento)
         {
 
         }
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void uploadIcon(string img, int id)
+        public void App_UploadFile()//Subir imagen desde android al servidor
+        {
+            var request = HttpContext.Current.Request;
+            if (request != null)
+            {
+                var photo = request.Files["file"];
+                if (photo != null)
+                {
+                    string url = "http://alexander14-001-site1.dtempurl.com/image/";
+                    string respuesta = url + photo.FileName;
+                    photo.SaveAs(HttpContext.Current.Server.MapPath("image/" + photo.FileName));
+                    json = JsonConvert.SerializeObject(respuesta);
+                    con.Response.Write(json);
+                }
+                else
+                {
+                    json = JsonConvert.SerializeObject("No hay nada");
+                    con.Response.Write(json);
+                }
+
+            }
+            else
+            {
+                json = JsonConvert.SerializeObject("NO");
+                con.Response.Write(json);
+            }
+            con.Response.End();
+
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void App_GetSolicitudes(int idpublic)
+        {
+            var query = (from s in bd.solicituds
+                         join p in bd.publicacions on s.idpublicacion equals p.id
+                         join u in bd.usuarios on s.idusuario equals u.id
+                         join per in bd.personas on u.idpersona equals per.id
+                         where p.id == idpublic
+                         select new
+                         {
+                             idpu = s.idpublicacion,
+                             titulo = p.titulo,
+                             descripcion = p.descripcion,
+                             nombre = per.nombre,
+                             apellido = per.apellido,
+                             fecha = s.fecha,
+                             fecha_cita = s.f_citar,
+                             fecha_tra = s.f_trabajo,
+                             estatus = s.estatus,
+                             log = s.@long,
+                             lat = s.lat
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void App_uploadfotoperfil(string img, int id)
+        {
+            var lista = bd.personas.FirstOrDefault(b => b.id == id);
+            lista.fotoperfil = img;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void App_upEstatusSolicitud(int idpu, int estatus)
+        {
+            var lista = bd.solicituds.FirstOrDefault(a => a.idpublicacion == idpu);
+            lista.estatus = estatus;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+
+// WEB - Administrador --------------------------------------------------------------------------------------------------------------------------      
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebAddcategoria(string nombre, string actividad1, string actividad2)
+        {
+            caT.nombre = nombre;
+            act.nombre = actividad1;
+            actividade act2 = new actividade();
+            act2.nombre = actividad2;
+            caT.actividades.Add(act);
+            caT.actividades.Add(act2);
+            bd.categoriaTs.Add(caT);
+            if (bd.SaveChanges() > 0)
+                json = "1";
+            else
+                json = "0";
+            con.Response.Write(json);
+            con.Response.End();
+        }
+
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebAddactividad(string nombre, int idcategorias)
+        {
+            act.idcategorias = idcategorias;
+            act.nombre = nombre;
+            bd.actividades.Add(act);
+            if (bd.SaveChanges() > 0)
+                json = "1";
+            else
+                json = "0";
+            con.Response.Write(json);
+            con.Response.End();
+        }
+       
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void WebuploadIcon(string img, int id)
         {
             string url = img;
             var webClient = new WebClient();
@@ -427,8 +501,7 @@ namespace WebServisFemsJup
             lista.icono = imageBytes;
             bd.SaveChanges();
         }
-        
-        //Administrador    
+         
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void WebUpUserStatus(int iduser, int estatus)
@@ -460,21 +533,11 @@ namespace WebServisFemsJup
             Context.Response.Write(SalidaJSON);
             Context.Response.End();
         }       
+
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void WebAddUsuarioAdmin(
-            string email,
-            string pass,
-            string nombre,
-            string apellido,
-            string telefono,
-            string sexo,
-            string curp,
-            string fechanacimiento,
-            string fotoperfil
-            )
+        public void WebAddUsuarioAdmin( string email, string pass, string nombre, string apellido, string telefono, string sexo, string curp, string fechanacimiento, string fotoperfil)
         {
-
             salt = cryptoService.GenerateSalt();
             passEncryptada = cryptoService.Compute(pass);
             {
@@ -1061,103 +1124,38 @@ namespace WebServisFemsJup
         }
 
 
-
+//No se para que son ggg, salu2 --------------------------------------------------------------------------------------------------------------------------
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void GetSolicitudes(int idpublic)
+        public void GetUsersEstatus(int estatus)
         {
-            var query = (from s in bd.solicituds
-                         join p in bd.publicacions on s.idpublicacion equals p.id
-                         join u in bd.usuarios on s.idusuario equals u.id
-                         join per in bd.personas on u.idpersona equals per.id
-                         where p.id== idpublic
-                         select new
-                         {
-                             idpu = s.idpublicacion,
-                             titulo = p.titulo,
-                             descripcion = p.descripcion,
-                             nombre = per.nombre,
-                             apellido = per.apellido,
-                             fecha = s.fecha,
-                             fecha_cita = s.f_citar,
-                             fecha_tra = s.f_trabajo,
-                             estatus = s.estatus,
-                             log=s.@long,
-                             lat=s.lat
-                         });
-            con.Response.ContentType = "application/json";
-            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
-            json = JsonConvert.SerializeObject(query);
-            con.Response.Write(json);
-            con.Response.End();
+            var datos = from p in bd.personas
+                        join u in bd.usuarios on p.id equals u.idpersona
+                        join per in bd.perfils on u.idperfil equals per.id
+                        where u.estatus == estatus && per.id != 1
+                        orderby u.id descending
+                        select new
+                        {
+                            ID = u.id,
+                            Correo = u.email,
+                            Nombres = p.nombre,
+                            Apellidos = p.apellido,
+                            Telefono = p.telefono,
+                            Sexo = p.sexo,
+                            Curp = p.curp,
+                            Perfil = per.tipoperfil,
+                            Imagen = p.fotoperfil,
+                        };
+            //Se convierte a JSON
+            string SalidaJSON = string.Empty;
+            SalidaJSON = JsonConvert.SerializeObject(datos);
+            //Salida del webservice
+            HttpContext Contexto = HttpContext.Current;
+            Context.Response.ContentType = "application/json";
+            Context.Response.Write(SalidaJSON);
+            Context.Response.End();
         }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void UploadFile()//Subir imagen desde android al servidor
-        {
-            var request = HttpContext.Current.Request;
-            if (request != null)
-            {
-                var photo = request.Files["file"];
-                if (photo != null)
-                {
-                    string url = "http://alexander14-001-site1.dtempurl.com/image/";
-                    string respuesta = url + photo.FileName;
-                    photo.SaveAs(HttpContext.Current.Server.MapPath("image/" + photo.FileName));
-                    json = JsonConvert.SerializeObject(respuesta);
-                    con.Response.Write(json);
-                }
-                else
-                {
-                    json = JsonConvert.SerializeObject("No hay nada");
-                    con.Response.Write(json);
-                }
 
-            }
-            else
-            {
-                json = JsonConvert.SerializeObject("NO");
-                con.Response.Write(json);
-            }
-            con.Response.End();
-
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void uploadfotoperfil(string img, int id)
-        {          
-            var lista = bd.personas.FirstOrDefault(b => b.id == id);
-            lista.fotoperfil = img;
-            bd.SaveChanges();
-            json = JsonConvert.SerializeObject(1);
-            con.Response.Write(json);
-            con.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void validarEmail(string email) {
-            var lista = bd.usuarios.Where(b => b.email == email.TrimStart().TrimEnd()).ToList();
-            if (lista.Count() > 0)
-            {
-                json = JsonConvert.SerializeObject(1);
-            }
-            else {
-                json = JsonConvert.SerializeObject(2);
-            }
-            con.Response.Write(json);
-            con.Response.End();
-        }
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void upEstatusSolicitud(int idpu, int estatus)
-        {
-            var lista = bd.solicituds.FirstOrDefault(a => a.idpublicacion == idpu);
-            lista.estatus = estatus;
-            bd.SaveChanges();
-            json = JsonConvert.SerializeObject(1);
-            con.Response.Write(json);
-            con.Response.End();
-        }
 
     }
 }
