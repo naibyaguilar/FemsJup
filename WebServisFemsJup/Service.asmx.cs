@@ -156,6 +156,7 @@ namespace WebServisFemsJup
                         where c.id.ToString().Contains(id) && pub.estatus == 1 //aprobado
                         select new
                         {
+                            idpu = pub.id,
                             Titulo = pub.titulo,
                             descripcion = pub.descripcion,
                             fecha = pub.fecha,
@@ -361,7 +362,7 @@ namespace WebServisFemsJup
         }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void Addpublicacion(int idcategorias, int idusuario, string descripcion, string fecha,int tarifa, string extra, int estatus, string dispo, string longi, string lat, string actividades, string titulo)
+        public void Addpublicacion(int idcategorias, int idusuario, string descripcion, string fecha,int tarifa, string extra, int estatus, string dispo, string longi, string lat, string titulo,string radio)
         {
             pub.idcategorias = idcategorias;
             pub.idusuario = idusuario;
@@ -374,15 +375,9 @@ namespace WebServisFemsJup
             pub.@long = longi;
             pub.lat = lat;
             pub.titulo = titulo;
+            pub.radio = radio;
             bd.publicacions.Add(pub);
             int res = bd.SaveChanges();
-            string[] actividad = actividades.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            for (int i = 0; i < actividad.Length; i++) {
-                a_p.idactivid = Convert.ToInt32(actividad[i]);
-                a_p.idpublicacion = pub.id;
-                bd.actividadesPublicacions.Add(a_p);
-                bd.SaveChanges();
-            }
             if (res > 0)
                 json = "1";
             else
@@ -1078,9 +1073,17 @@ namespace WebServisFemsJup
                          where p.id== idpublic
                          select new
                          {
+                             idpu = s.idpublicacion,
                              titulo = p.titulo,
+                             descripcion = p.descripcion,
                              nombre = per.nombre,
-                             apellido = per.apellido
+                             apellido = per.apellido,
+                             fecha = s.fecha,
+                             fecha_cita = s.f_citar,
+                             fecha_tra = s.f_trabajo,
+                             estatus = s.estatus,
+                             log=s.@long,
+                             lat=s.lat
                          });
             con.Response.ContentType = "application/json";
             con.Response.AddHeader("Access-Control-Allow-Origin", "*");
@@ -1141,6 +1144,17 @@ namespace WebServisFemsJup
             else {
                 json = JsonConvert.SerializeObject(2);
             }
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void upEstatusSolicitud(int idpu, int estatus)
+        {
+            var lista = bd.solicituds.FirstOrDefault(a => a.idpublicacion == idpu);
+            lista.estatus = estatus;
+            bd.SaveChanges();
+            json = JsonConvert.SerializeObject(1);
             con.Response.Write(json);
             con.Response.End();
         }
