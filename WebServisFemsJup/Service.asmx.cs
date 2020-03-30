@@ -411,7 +411,8 @@ namespace WebServisFemsJup
                          where p.id == idpublic
                          select new
                          {
-                             idpu = s.idpublicacion,
+                             idsoli = s.id,
+                             idusuario=s.idusuario,
                              titulo = p.titulo,
                              descripcion = p.descripcion,
                              nombre = per.nombre,
@@ -444,9 +445,9 @@ namespace WebServisFemsJup
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void App_upEstatusSolicitud(int idpu, int estatus)
+        public void App_upEstatusSolicitud(int idsoli, int estatus)
         {
-            var lista = bd.solicituds.FirstOrDefault(a => a.idpublicacion == idpu);
+            var lista = bd.solicituds.FirstOrDefault(a => a.id == idsoli);
             lista.estatus = estatus;
             bd.SaveChanges();
             json = JsonConvert.SerializeObject(1);
