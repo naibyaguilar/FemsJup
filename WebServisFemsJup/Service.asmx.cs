@@ -214,6 +214,7 @@ namespace WebServisFemsJup
                         join c in bd.categoriaTs on pub.idcategorias equals c.id
                         join us in bd.usuarios on pub.idusuario equals us.id
                         join pe in bd.personas on us.idpersona equals pe.id
+                        join cal in bd.scores on us.id equals cal.id
                         where c.id.ToString() ==id && pub.estatus == 1 //aprobado
                         select new
                         {
@@ -233,7 +234,10 @@ namespace WebServisFemsJup
                             interes = c.id,
                             icono = c.icono,
                             radio = pub.radio,
-                            categoria= c.nombre
+                            categoria= c.nombre,
+                            fotoEmpleada = pe.fotoperfil,
+                            score = cal.calificacion,
+                            telefono = pe.telefono
 
                         });
             json = JsonConvert.SerializeObject(list);
