@@ -454,9 +454,32 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
+        [WebMethod]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public void app_GetPerfil(int idusario)
+        {
+            var query = (from per in bd.personas
+                         join u in bd.usuarios on u.idpersona equals u.id
+                         where u.id==idusario
+                         select new
+                         {
+                             nombre=per.nombre,
+                             apellidos=per.apellido,
+                             telefono=per.telefono,
+                             correo=u.email,
+                             foto=per.fotoperfil
+
+                         });
+            con.Response.ContentType = "application/json";
+            con.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            json = JsonConvert.SerializeObject(query);
+            con.Response.Write(json);
+            con.Response.End();
+        }
 
 
-// WEB - Administrador --------------------------------------------------------------------------------------------------------------------------      
+
+        // WEB - Administrador --------------------------------------------------------------------------------------------------------------------------      
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
