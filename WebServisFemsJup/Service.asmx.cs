@@ -53,7 +53,23 @@ namespace WebServisFemsJup
             con.Response.ContentType = "application/json";
             json = "";
         }
- //{ Generales --------------------------------------------------------------------------------------------------------------------------
+        //{ Generales --------------------------------------------------------------------------------------------------------------------------
+
+        public void add_Calificacion() {
+            var list = bd.usuarios.ToList();
+            for (int i = 0; i < list.Count; i++) {
+                var id = list[i].id;
+                cal.idusuario = id;
+                cal.puntuacion = 5;
+                cal.comentarios = null;
+                bd.calificacions.Add(cal);
+                bd.SaveChanges();
+            }
+            json = JsonConvert.SerializeObject("ok");
+            con.Response.Write(json);
+            con.Response.End();
+
+        }
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void Login(string email, string pass, int perfil)
