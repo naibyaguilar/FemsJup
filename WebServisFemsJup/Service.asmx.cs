@@ -55,21 +55,9 @@ namespace WebServisFemsJup
         }
         //{ Generales --------------------------------------------------------------------------------------------------------------------------
 
-        public void add_Calificacion() {
-            var list = bd.usuarios.ToList();
-            for (int i = 0; i < list.Count; i++) {
-                var id = list[i].id;
-                cal.idusuario = id;
-                cal.puntuacion = 5;
-                cal.comentarios = null;
-                bd.calificacions.Add(cal);
-                bd.SaveChanges();
-            }
-            json = JsonConvert.SerializeObject("ok");
-            con.Response.Write(json);
-            con.Response.End();
-
-        }
+        
+      
+       
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void Login(string email, string pass, int perfil)
@@ -382,13 +370,7 @@ namespace WebServisFemsJup
             con.Response.Write(json);
             con.Response.End();
         }
-
-        [WebMethod]
-        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-        public void App_upPersona(int id, string email, string pass, string nombre, string apellido, string telefono, string sexo, string curo, string fechanacimiento, string fotoperfil, string @long, string lat, int idinteres, string documento)
-        {
-
-        }
+       
 
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -499,7 +481,21 @@ namespace WebServisFemsJup
             con.Response.End();
         }
 
+        //En prueba
+        public void App_upPersona(int id, string email, string pass, string nombre, string apellido, string telefono, string sexo, string curo, string fechanacimiento, string fotoperfil, string @long, string lat, int idinteres, string documento)
+        {
+            bd.personas.Find(id);
+            p.nombre = nombre;
+            p.apellido = apellido;
+            p.sexo = sexo;
 
+            bd.SaveChanges();
+
+            json = JsonConvert.SerializeObject("OK");
+            con.Response.Write(json);
+            con.Response.End();
+
+        }
 
         // WEB - Administrador --------------------------------------------------------------------------------------------------------------------------      
 
@@ -1171,7 +1167,7 @@ namespace WebServisFemsJup
         }
 
 
-//No se para que son ggg, salu2 --------------------------------------------------------------------------------------------------------------------------
+//OTROS --------------------------------------------------------------------------------------------------------------------------
         [WebMethod]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
         public void GetUsersEstatus(int estatus)
@@ -1202,7 +1198,60 @@ namespace WebServisFemsJup
             Context.Response.Write(SalidaJSON);
             Context.Response.End();
         }
+        public void update_Fotoperdil()
+        {
+            var list = bd.personas.ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                var persona = bd.personas.Find(list[i].id);
+                if (persona.sexo == "F")
+                    persona.fotoperfil = "http://alexander14-001-site1.dtempurl.com/image/mujer.png";
+                else if (persona.sexo == "M")
+                    persona.fotoperfil = "http://alexander14-001-site1.dtempurl.com/image/hombre.png";
+                else
+                    persona.fotoperfil = "http://alexander14-001-site1.dtempurl.com/image/genero.png";
+                bd.SaveChanges();
+            }
+            json = JsonConvert.SerializeObject("OK");
+            con.Response.Write(json);
+            con.Response.End();
 
+        }
+        public void update_sexo()
+        {
+            var list = bd.personas.ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                var persona = bd.personas.Find(list[i].id);
+                if (persona.sexo == "Femenino")
+                    persona.sexo = "F";
+                else if (persona.sexo == "Masculino")
+                    persona.sexo = "M";
+                else
+                    persona.sexo = "F";
+                bd.SaveChanges();
+            }
+            json = JsonConvert.SerializeObject("OK");
+            con.Response.Write(json);
+            con.Response.End();
+        }
+        public void add_Calificacion()
+        {
+            var list = bd.usuarios.ToList();
+            for (int i = 0; i < list.Count; i++)
+            {
+                var id = list[i].id;
+                cal.idusuario = id;
+                cal.puntuacion = 5;
+                cal.comentarios = null;
+                bd.calificacions.Add(cal);
+                bd.SaveChanges();
+            }
+            json = JsonConvert.SerializeObject(list);
+            con.Response.Write(json);
+            con.Response.End();
+
+        }
 
     }
 }
