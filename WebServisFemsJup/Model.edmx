@@ -71,13 +71,6 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.colors' no tiene d
           <Property Name="idelempermiso" Type="int" />
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.estatus' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="estatus">
-          <Property Name="id" Type="int" />
-          <Property Name="nombre" Type="varchar(max)" />
-          <Property Name="tabla" Type="varchar(max)" />
-        </EntityType>-->
         <EntityType Name="insidencia">
           <Key>
             <PropertyRef Name="id" />
@@ -179,13 +172,6 @@ advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.estatus' no tiene 
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.tipo' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="tipo">
-          <Property Name="id" Type="int" />
-          <Property Name="nombre" Type="varchar(max)" />
-          <Property Name="tabla" Type="varchar(max)" />
-        </EntityType>-->
         <EntityType Name="usuario">
           <Key>
             <PropertyRef Name="id" />
@@ -213,25 +199,9 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.score' no tiene de
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
           <Property Name="calificacion" Type="decimal" Precision="15" Scale="1" />
+          <Property Name="id" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.solipubli' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="solipubli">
-          <Property Name="titulo" Type="varchar" MaxLength="50" />
-          <Property Name="popularidad" Type="int" />
-        </EntityType>-->
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.total_publi' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="total_publi">
-          <Property Name="id" Type="int" />
-        </EntityType>-->
-        <!--Errores durante la generación:
-advertencia 6013: La tabla o vista 'DB_A54C28_alexander14.dbo.total_publi_soli' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
-        <EntityType Name="total_publi_soli">
-          <Property Name="id" Type="int" />
-        </EntityType>-->
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.usuariosoli' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
         <EntityType Name="usuariosoli">
@@ -544,8 +514,8 @@ advertencia 6002: La tabla o vista 'DB_A54C28_alexander14.dbo.usuariosoli' no ti
           </EntitySet>
           <EntitySet Name="score" EntityType="Self.score" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [score].[id] AS [id], 
-    [score].[calificacion] AS [calificacion]
+    [score].[calificacion] AS [calificacion], 
+    [score].[id] AS [id]
     FROM [dbo].[score] AS [score]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="usuariosoli" EntityType="Self.usuariosoli" store:Type="Views" store:Schema="dbo">
