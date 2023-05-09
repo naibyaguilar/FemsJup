@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">FemsJup</string>
+    <string name="correo">Correo electronico</string>
+    <string name="password">Ingrese su contraseña</string>
+    <string name="olvidado">¿Haz olvidado tu contraseña?</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="iniciar">Iniciar Sesión</string>
+    <string name="nombre">Nombres Completo</string>
+    <string name="telefono">Numero Telefonico</string>
+    <string name="apellido">Apellidos Completos</string>
+    <string name="contrasenia">Contraseña</string>
+    <string name="confirmar">Confirmar contraseña</string>
+    <string name="valid_campo">Por favor llene este campo</string>
+    <string name="valid_pass">Por favor ingrese un minimo de 6 digitos</string>
+    <string name="valid_email">Por favor ingrese un correo electronico valido</string>
+    <string name="valid_passmacht">Las contraseñas no coinciden, Por favor verificalas</string>
+    <string name="valid_rbt">Selecciona el sexo</string>
+    <string name="select_interes">Seleccionar y completar</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="solicitar_permiso">Solicitud de permisos</string>
+    <string name="mensaje_permiso">FemsJup necesita permisos para acceder a la ubicación del dispositivo, almacenamiento y cámara. Esto para poder brindar una mejor experiencia y servicios necesarios</string>
+    <string name="btn_dar_permisos">Otorgar permisos</string>
+    <string name="title_activity_menu">menu</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_perfil">Perfil</string>
+    <string name="menu_publica">Publicar</string>
+    <string name="menu_historial">Historial</string>
+    <string name="menu_CV">CV</string>
+    <string name="menu_sesion">Cerrar Sesión</string>
+
+</resources>

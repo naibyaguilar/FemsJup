@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.registro"
+    android:fillViewport="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="343dp"
+            android:layout_height="140dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/txtNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3"
+            android:hint="@string/nombre"
+            android:drawableLeft="@drawable/iconopersona"
+            android:layout_margin="30dp"
+            android:maxLength="30"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/txtApellido"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@+id/txtNombre"
+            app:layout_constraintStart_toStartOf="@+id/txtNombre"
+            app:layout_constraintTop_toBottomOf="@+id/txtNombre"
+            android:layout_marginTop="10dp"
+            android:hint="@string/apellido"
+            android:maxLength="30"
+            android:drawableLeft="@drawable/iconopersona" />
+
+
+        <EditText
+            android:id="@+id/txttelefono"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/telefono"
+            app:layout_constraintEnd_toEndOf="@+id/txtApellido"
+            app:layout_constraintStart_toStartOf="@+id/txtApellido"
+            app:layout_constraintTop_toBottomOf="@+id/txtApellido"
+            android:drawableLeft="@drawable/ic_phone"
+            android:inputType="text|phone"
+            android:maxLength="10" />
+
+        <EditText
+            android:id="@+id/txtCorreo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/ic_correo"
+            android:hint="@string/correo"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="@+id/txttelefono"
+            app:layout_constraintStart_toStartOf="@+id/txttelefono"
+            app:layout_constraintTop_toBottomOf="@+id/txttelefono" />
+
+        <EditText
+            android:id="@+id/txtpass"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/contrasenia"
+            app:layout_constraintEnd_toEndOf="@+id/txtCorreo"
+            app:layout_constraintStart_toStartOf="@+id/txtCorreo"
+            app:layout_constraintTop_toBottomOf="@+id/txtCorreo"
+            android:drawableLeft="@drawable/iconopassword"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/txtConfirmar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/iconopassword"
+            android:hint="@string/confirmar"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="@+id/txtpass"
+            app:layout_constraintStart_toStartOf="@+id/txtpass"
+            app:layout_constraintTop_toBottomOf="@+id/txtpass" />
+
+        <RadioGroup
+            android:id="@+id/rgp_sexo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/txtConfirmar"
+            app:layout_constraintStart_toStartOf="@+id/txtConfirmar"
+            app:layout_constraintTop_toBottomOf="@+id/txtConfirmar">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_happy"
+                android:text="Sexo:" />
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/F"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Femenino"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <RadioButton
+                android:id="@+id/M"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Masculino"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnRegistrarse"
+            android:layout_width="148dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_basic"
+            android:text="@string/registrarse"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/txtConfirmar"
+            app:layout_constraintStart_toStartOf="@+id/rgp_sexo"
+            app:layout_constraintTop_toBottomOf="@+id/rgp_sexo" />
+
+        <ProgressBar
+            android:id="@+id/bar_registro"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnRegistrarse"
+            app:layout_constraintEnd_toEndOf="@+id/rgp_sexo"
+            app:layout_constraintStart_toStartOf="@+id/rgp_sexo"
+            app:layout_constraintTop_toBottomOf="@+id/rgp_sexo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
